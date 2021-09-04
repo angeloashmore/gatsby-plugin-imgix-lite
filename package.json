@@ -1,17 +1,20 @@
 {
-	"name": "package_name",
+	"name": "gatsby-plugin-imgix-lite",
 	"version": "0.0.0",
-	"description": "package_description",
+	"description": "A lite version of @imgix/gatsby",
 	"keywords": [
-		"typescript",
-		"prismic"
+		"gatsby",
+		"gatsby-plugin",
+		"imgix",
+		"gatsby-image",
+		"gatsby-plugin-image"
 	],
 	"repository": {
 		"type": "git",
-		"url": "ssh://git@github.com/github_org_slash_github_repo.git"
+		"url": "ssh://git@github.com/angeloashmore/gatsby-plugin-imgix-lite.git"
 	},
 	"license": "MIT",
-	"author": "Prismic <contact@prismic.io> (https://prismic.io)",
+	"author": "Angelo Ashmore",
 	"type": "module",
 	"exports": {
 		".": {

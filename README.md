@@ -9,7 +9,7 @@
 
 > This package is a WIP and is not ready for use.
 
-A lighter version of `@imgix/gatsby`.
+A lite version of `@imgix/gatsby`.
 
 ## Install
 

@@ -15,6 +15,7 @@ import {
 } from "../resolveGatsbyImageData.server";
 
 type BuildImgixLiteGatsbyImageDataResolverConfig<TSource> = {
+	pluginName: string;
 	generateImageSource: GenerateImageSource<TSource>;
 	schema: NodePluginSchema;
 	cache: GatsbyCache;
@@ -53,6 +54,7 @@ export const buildImgixLiteGatsbyImageDataResolver = <TSource, TContext>(
 					},
 					{
 						cache: config.cache,
+						pluginName: config.pluginName,
 					},
 				);
 			}

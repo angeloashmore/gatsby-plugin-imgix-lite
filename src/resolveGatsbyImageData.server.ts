@@ -11,6 +11,8 @@ import fetch from "node-fetch";
 import { fetchBase64Image } from "./lib/fetchBase64Image.server";
 import { stripURLParameters } from "./lib/stripURLParameters";
 
+import { name as pkgName } from "../package.json";
+
 import {
 	ImageSource,
 	ImgixLiteGatsbyImageDataPlaceholderKind,
@@ -28,15 +30,16 @@ export type ImgixLiteGatsbyImageDataArgs = {
 
 type ResolveGatsbyImageDataConfig = {
 	cache: GatsbyCache;
+	pluginName?: string;
 };
 
 export const resolveGatsbyImageData = async (
 	image: ImageSource,
-	options: ImgixLiteGatsbyImageDataArgs,
+	options: ImgixLiteGatsbyImageDataArgs = {},
 	config: ResolveGatsbyImageDataConfig,
 ): Promise<IGatsbyImageData | null> => {
 	const imageDataArgs: IGatsbyImageHelperArgs = {
-		pluginName: "gatsby-source-prismic",
+		pluginName: config.pluginName || pkgName,
 		sourceMetadata: {
 			width: image.width,
 			height: image.height,

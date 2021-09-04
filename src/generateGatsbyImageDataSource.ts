@@ -4,7 +4,7 @@ import ImgixClient from "@imgix/js-core";
 import { stripURLParameters } from "./lib/stripURLParameters";
 
 import { DEFAULT_IMGIX_PARAMS } from "./constants";
-import type { ImgixLiteGatsbyImageDataArgs } from "./resolveGatsbyImageData.client";
+import type { ImgixLiteGatsbyImageDataArgs } from "./resolveGatsbyImageData";
 
 export const generateGatsbyImageDataSource: IGatsbyImageHelperArgs["generateImageSource"] =
 	(

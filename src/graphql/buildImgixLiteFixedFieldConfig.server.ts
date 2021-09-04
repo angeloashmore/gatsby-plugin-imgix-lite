@@ -1,11 +1,7 @@
 import type { NodePluginSchema } from "gatsby";
 import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-compose";
 
-import {
-	GenerateImageSource,
-	ImgixLiteGraphQLTypeName,
-	ImgixLiteUrlParams,
-} from "../types";
+import { GenerateImageSource, GraphQLTypeName, ImgixParams } from "../types";
 import { DEFAULT_FIXED_WIDTH } from "../constants";
 import { resolveFixed, ImgixLiteFixedArgs } from "../resolvers/resolveFixed";
 
@@ -13,8 +9,8 @@ type BuildImgixLiteFixedFieldConfigConfig<TSource> = {
 	namespace: string;
 	generateImageSource: GenerateImageSource<TSource>;
 	schema: NodePluginSchema;
-	defaultImgixParams?: ImgixLiteUrlParams;
-	defaultPlaceholderImgixParams?: ImgixLiteUrlParams;
+	defaultImgixParams?: ImgixParams;
+	defaultPlaceholderImgixParams?: ImgixParams;
 };
 
 export const buildImgixLiteFixedFieldConfig = <TSource, TContext>(
@@ -25,7 +21,7 @@ export const buildImgixLiteFixedFieldConfig = <TSource, TContext>(
 	ImgixLiteFixedArgs
 > => {
 	return {
-		type: config.namespace + ImgixLiteGraphQLTypeName.ImageFixedObject,
+		type: config.namespace + GraphQLTypeName.FixedObject,
 		// IMPORTANT: These types must be kept in sync with `ImgixLiteFluidArgs`.
 		args: {
 			width: {
@@ -34,11 +30,11 @@ export const buildImgixLiteFixedFieldConfig = <TSource, TContext>(
 			},
 			height: "Int",
 			imgixParams: {
-				type: ImgixLiteGraphQLTypeName.ImgixParamsInputObject,
+				type: GraphQLTypeName.ImgixParamsInputObject,
 				defaultValue: {},
 			},
 			placeholderImgixParams: {
-				type: ImgixLiteGraphQLTypeName.ImgixParamsInputObject,
+				type: GraphQLTypeName.ImgixParamsInputObject,
 				defaultValue: {},
 			},
 		},

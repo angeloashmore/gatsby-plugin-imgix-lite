@@ -2,7 +2,7 @@ import type { NodePluginSchema, GatsbyGraphQLInputObjectType } from "gatsby";
 import { parameters as imgixParamSpecs } from "imgix-url-params/dist/parameters.json";
 import { camelCase } from "camel-case";
 
-import { ImgixLiteGraphQLTypeName } from "../types";
+import { GraphQLTypeName } from "../types";
 
 type BuildImgixLiteUrlParamsInputObjectTypeConfig = {
 	namespace: string;
@@ -73,7 +73,7 @@ export const buildImgixLiteUrlParamsInputObjectType = (
 	}
 
 	return config.schema.buildInputObjectType({
-		name: config.namespace + ImgixLiteGraphQLTypeName.ImgixParamsInputObject,
+		name: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
 		fields,
 	});
 };

@@ -4,7 +4,7 @@ import ImgixClient, { SrcSetOptions } from "@imgix/js-core";
 import { stripURLParameters } from "../lib/stripURLParameters";
 import { parseArParam } from "../lib/parseArParam";
 
-import { ImageSource, ImgixLiteUrlParams } from "../types";
+import { ImageSource, ImgixParams } from "../types";
 import {
 	DEFAULT_FLUID_MAX_WIDTH,
 	DEFAULT_FLUID_SRC_SET_BREAKPOINT_FACTORS,
@@ -16,8 +16,8 @@ export type ImgixLiteFluidArgs = {
 	maxWidth?: number;
 	maxHeight?: number | null;
 	srcSetBreakpoints?: number[];
-	imgixParams?: ImgixLiteUrlParams;
-	placeholderImgixParams?: ImgixLiteUrlParams;
+	imgixParams?: ImgixParams;
+	placeholderImgixParams?: ImgixParams;
 };
 
 export const resolveFluid = (
@@ -63,7 +63,7 @@ export const resolveFluid = (
 	const maxHeight =
 		resolvedOptions.maxHeight ?? Math.round(maxWidth / aspectRatio);
 
-	const imgixParams: ImgixLiteUrlParams = {
+	const imgixParams: ImgixParams = {
 		...DEFAULT_IMGIX_PARAMS,
 		...resolvedOptions.imgixParams,
 		w: maxWidth,
@@ -76,7 +76,7 @@ export const resolveFluid = (
 		fm: "webp",
 	};
 
-	const placeholderImgixParams: ImgixLiteUrlParams = {
+	const placeholderImgixParams: ImgixParams = {
 		...imgixParams,
 		...DEFAULT_PLACEHOLDER_IMGIX_PARAMS,
 		...resolvedOptions.placeholderImgixParams,

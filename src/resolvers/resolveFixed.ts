@@ -4,7 +4,7 @@ import ImgixClient from "@imgix/js-core";
 import { stripURLParameters } from "../lib/stripURLParameters";
 import { parseArParam } from "../lib/parseArParam";
 
-import { ImageSource, ImgixLiteUrlParams } from "../types";
+import { ImageSource, ImgixParams } from "../types";
 import {
 	DEFAULT_FIXED_WIDTH,
 	DEFAULT_IMGIX_PARAMS,
@@ -14,8 +14,8 @@ import {
 export type ImgixLiteFixedArgs = {
 	width?: number;
 	height?: number | null;
-	imgixParams?: ImgixLiteUrlParams;
-	placeholderImgixParams?: ImgixLiteUrlParams;
+	imgixParams?: ImgixParams;
+	placeholderImgixParams?: ImgixParams;
 };
 
 export const resolveFixed = (
@@ -52,19 +52,19 @@ export const resolveFixed = (
 	const width = resolvedOptions.width;
 	const height = resolvedOptions.height ?? Math.round(width / aspectRatio);
 
-	const imgixParams: ImgixLiteUrlParams = {
+	const imgixParams: ImgixParams = {
 		...DEFAULT_IMGIX_PARAMS,
 		...resolvedOptions.imgixParams,
 		w: width,
 		h: height,
 	};
 
-	const imgixParamsWebp: ImgixLiteUrlParams = {
+	const imgixParamsWebp: ImgixParams = {
 		...imgixParams,
 		fm: "webp",
 	};
 
-	const placeholderImgixParams: ImgixLiteUrlParams = {
+	const placeholderImgixParams: ImgixParams = {
 		...imgixParams,
 		...DEFAULT_PLACEHOLDER_IMGIX_PARAMS,
 		...resolvedOptions.placeholderImgixParams,

@@ -1,15 +1,15 @@
-export { resolveFixed } from "./resolveFixed";
-export type { ImgixLiteFixedArgs } from "./resolveFixed";
+export { resolveFixed } from "./resolvers/resolveFixed";
+export type { ImgixLiteFixedArgs } from "./resolvers/resolveFixed";
 
-export { resolveFluid } from "./resolveFluid";
-export type { ImgixLiteFluidArgs } from "./resolveFluid";
+export { resolveFluid } from "./resolvers/resolveFluid";
+export type { ImgixLiteFluidArgs } from "./resolvers/resolveFluid";
 
-export { resolveGatsbyImageData } from "./resolveGatsbyImageData";
-export type { ImgixLiteGatsbyImageDataArgs } from "./resolveGatsbyImageData";
+export { resolveGatsbyImageData } from "./resolvers/resolveGatsbyImageData";
+export type { ImgixLiteGatsbyImageDataArgs } from "./resolvers/resolveGatsbyImageData";
 
 export type {
 	ImageSource,
 	GenerateImageSource,
-	ImgixLiteUrlParams,
-	ImgixLiteGatsbyImageDataPlaceholderKind,
+	ImgixParams as ImgixLiteUrlParams,
+	GatsbyImageDataPlaceholderKind as ImgixLiteGatsbyImageDataPlaceholderKind,
 } from "./types";

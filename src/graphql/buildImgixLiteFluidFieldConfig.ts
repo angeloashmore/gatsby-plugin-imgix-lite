@@ -1,11 +1,7 @@
 import type { NodePluginSchema } from "gatsby";
 import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-compose";
 
-import {
-	GenerateImageSource,
-	ImgixLiteGraphQLTypeName,
-	ImgixLiteUrlParams,
-} from "../types";
+import { GenerateImageSource, GraphQLTypeName, ImgixParams } from "../types";
 import { DEFAULT_FLUID_MAX_WIDTH } from "../constants";
 import { resolveFluid, ImgixLiteFluidArgs } from "../resolvers/resolveFluid";
 
@@ -13,8 +9,8 @@ type BuildImgixLiteFluidFieldConfigConfig<TSource> = {
 	namespace: string;
 	generateImageSource: GenerateImageSource<TSource>;
 	schema: NodePluginSchema;
-	defaultImgixParams?: ImgixLiteUrlParams;
-	defaultPlaceholderImgixParams?: ImgixLiteUrlParams;
+	defaultImgixParams?: ImgixParams;
+	defaultPlaceholderImgixParams?: ImgixParams;
 };
 
 export const buildImgixLiteFluidFieldConfig = <TSource, TContext>(
@@ -25,7 +21,7 @@ export const buildImgixLiteFluidFieldConfig = <TSource, TContext>(
 	ImgixLiteFluidArgs
 > => {
 	return {
-		type: config.namespace + ImgixLiteGraphQLTypeName.ImageFluidObject,
+		type: config.namespace + GraphQLTypeName.FluidObject,
 		// IMPORTANT: These types must be kept in sync with `ImgixLiteFluidArgs`.
 		args: {
 			maxWidth: {
@@ -35,11 +31,11 @@ export const buildImgixLiteFluidFieldConfig = <TSource, TContext>(
 			maxHeight: "Int",
 			srcSetBreakpoints: "[Int!]",
 			imgixParams: {
-				type: ImgixLiteGraphQLTypeName.ImgixParamsInputObject,
+				type: GraphQLTypeName.ImgixParamsInputObject,
 				defaultValue: {},
 			},
 			placeholderImgixParams: {
-				type: ImgixLiteGraphQLTypeName.ImgixParamsInputObject,
+				type: GraphQLTypeName.ImgixParamsInputObject,
 				defaultValue: {},
 			},
 		},

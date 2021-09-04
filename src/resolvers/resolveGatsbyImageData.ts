@@ -11,17 +11,17 @@ import { generateGatsbyImageDataSource } from "../lib/generateGatsbyImageDataSou
 
 import {
 	ImageSource,
-	ImgixLiteGatsbyImageDataPlaceholderKind,
-	ImgixLiteUrlParams,
+	GatsbyImageDataPlaceholderKind,
+	ImgixParams,
 } from "../types";
 
 export type ImgixLiteGatsbyImageDataArgs = {
 	placeholder?: Exclude<
-		ImgixLiteGatsbyImageDataPlaceholderKind,
-		ImgixLiteGatsbyImageDataPlaceholderKind.DominantColor
+		GatsbyImageDataPlaceholderKind,
+		GatsbyImageDataPlaceholderKind.DominantColor
 	>;
-	imgixParams?: ImgixLiteUrlParams;
-	placeholderImgixParams?: ImgixLiteUrlParams;
+	imgixParams?: ImgixParams;
+	placeholderImgixParams?: ImgixParams;
 };
 
 type ResolveGatsbyImageDataConfig = {
@@ -45,7 +45,7 @@ export const resolveGatsbyImageData = (
 		options,
 	};
 
-	if (options.placeholder === ImgixLiteGatsbyImageDataPlaceholderKind.Blurred) {
+	if (options.placeholder === GatsbyImageDataPlaceholderKind.Blurred) {
 		imageDataArgs.placeholderURL = getLowResolutionImageURL(imageDataArgs);
 	}
 

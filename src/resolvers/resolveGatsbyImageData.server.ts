@@ -16,16 +16,16 @@ import { name as pkgName } from "../../package.json";
 
 import {
 	ImageSource,
-	ImgixLiteGatsbyImageDataPlaceholderKind,
-	ImgixLiteUrlParams,
+	GatsbyImageDataPlaceholderKind,
+	ImgixParams,
 	ImgixPalleteLike,
 } from "../types";
 import { DEFAULT_IMGIX_PARAMS } from "../constants";
 
 export type ImgixLiteGatsbyImageDataArgs = {
-	placeholder?: ImgixLiteGatsbyImageDataPlaceholderKind;
-	imgixParams?: ImgixLiteUrlParams;
-	placeholderImgixParams?: ImgixLiteUrlParams;
+	placeholder?: GatsbyImageDataPlaceholderKind;
+	imgixParams?: ImgixParams;
+	placeholderImgixParams?: ImgixParams;
 };
 
 type ResolveGatsbyImageDataConfig = {
@@ -50,18 +50,15 @@ export const resolveGatsbyImageData = async (
 		options,
 	};
 
-	if (options.placeholder === ImgixLiteGatsbyImageDataPlaceholderKind.Blurred) {
+	if (options.placeholder === GatsbyImageDataPlaceholderKind.Blurred) {
 		imageDataArgs.placeholderURL = await fetchBase64Image({
 			url: getLowResolutionImageURL(imageDataArgs),
 			cache: config.cache,
 		});
 	}
 
-	if (
-		options.placeholder ===
-		ImgixLiteGatsbyImageDataPlaceholderKind.DominantColor
-	) {
-		const cacheKey = `${ImgixLiteGatsbyImageDataPlaceholderKind.DominantColor}___${image.url}`;
+	if (options.placeholder === GatsbyImageDataPlaceholderKind.DominantColor) {
+		const cacheKey = `${GatsbyImageDataPlaceholderKind.DominantColor}___${image.url}`;
 		const cacheValue: string | undefined = await config.cache.get(cacheKey);
 
 		if (cacheValue) {

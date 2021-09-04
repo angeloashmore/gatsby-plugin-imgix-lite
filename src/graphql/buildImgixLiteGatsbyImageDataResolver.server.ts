@@ -4,11 +4,7 @@ import {
 	getGatsbyImageResolver,
 } from "gatsby-plugin-image/graphql-utils";
 
-import {
-	GenerateImageSource,
-	ImgixLiteGraphQLTypeName,
-	ImgixLiteUrlParams,
-} from "../types";
+import { GenerateImageSource, GraphQLTypeName, ImgixParams } from "../types";
 import {
 	ImgixLiteGatsbyImageDataArgs,
 	resolveGatsbyImageData,
@@ -19,8 +15,8 @@ type BuildImgixLiteGatsbyImageDataResolverConfig<TSource> = {
 	generateImageSource: GenerateImageSource<TSource>;
 	schema: NodePluginSchema;
 	cache: GatsbyCache;
-	defaultImgixParams?: ImgixLiteUrlParams;
-	defaultPlaceholderImgixParams?: ImgixLiteUrlParams;
+	defaultImgixParams?: ImgixParams;
+	defaultPlaceholderImgixParams?: ImgixParams;
 };
 
 export const buildImgixLiteGatsbyImageDataResolver = <TSource, TContext>(
@@ -63,13 +59,13 @@ export const buildImgixLiteGatsbyImageDataResolver = <TSource, TContext>(
 		// IMPORTANT: These types must be kept in sync with `ImgixLiteGatsbyImageDataArgs`.
 		{
 			placeholder: {
-				type: ImgixLiteGraphQLTypeName.GatsbyImageDataPlaceholderEnum,
+				type: GraphQLTypeName.GatsbyImageDataPlaceholderEnum,
 			},
 			imgixParams: {
-				type: ImgixLiteGraphQLTypeName.ImgixParamsInputObject,
+				type: GraphQLTypeName.ImgixParamsInputObject,
 			},
 			placeholderImgixParams: {
-				type: ImgixLiteGraphQLTypeName.ImgixParamsInputObject,
+				type: GraphQLTypeName.ImgixParamsInputObject,
 			},
 		},
 	);

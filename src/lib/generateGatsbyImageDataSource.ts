@@ -1,10 +1,10 @@
 import type { IGatsbyImageHelperArgs } from "gatsby-plugin-image";
 import ImgixClient from "@imgix/js-core";
 
-import { stripURLParameters } from "./lib/stripURLParameters";
+import { DEFAULT_IMGIX_PARAMS } from "../constants";
+import type { ImgixLiteGatsbyImageDataArgs } from "../resolvers/resolveGatsbyImageData";
 
-import { DEFAULT_IMGIX_PARAMS } from "./constants";
-import type { ImgixLiteGatsbyImageDataArgs } from "./resolveGatsbyImageData";
+import { stripURLParameters } from "./stripURLParameters";
 
 export const generateGatsbyImageDataSource: IGatsbyImageHelperArgs["generateImageSource"] =
 	(

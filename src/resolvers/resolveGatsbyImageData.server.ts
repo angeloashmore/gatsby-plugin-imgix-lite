@@ -8,19 +8,19 @@ import {
 import ImgixClient from "@imgix/js-core";
 import fetch from "node-fetch";
 
-import { fetchBase64Image } from "./lib/fetchBase64Image.server";
-import { stripURLParameters } from "./lib/stripURLParameters";
+import { fetchBase64Image } from "../lib/fetchBase64Image.server";
+import { generateGatsbyImageDataSource } from "../lib/generateGatsbyImageDataSource";
+import { stripURLParameters } from "../lib/stripURLParameters";
 
-import { name as pkgName } from "../package.json";
+import { name as pkgName } from "../../package.json";
 
 import {
 	ImageSource,
 	ImgixLiteGatsbyImageDataPlaceholderKind,
 	ImgixLiteUrlParams,
 	ImgixPalleteLike,
-} from "./types";
-import { DEFAULT_IMGIX_PARAMS } from "./constants";
-import { generateGatsbyImageDataSource } from "./generateGatsbyImageDataSource";
+} from "../types";
+import { DEFAULT_IMGIX_PARAMS } from "../constants";
 
 export type ImgixLiteGatsbyImageDataArgs = {
 	placeholder?: ImgixLiteGatsbyImageDataPlaceholderKind;
@@ -77,7 +77,7 @@ export const resolveGatsbyImageData = async (
 				...options.imgixParams,
 			});
 			const res = await fetch(palleteUrl);
-			const json: ImgixPalleteLike = await res.json();
+			const json = (await res.json()) as ImgixPalleteLike;
 
 			const dominantColor = json.dominant_colors.vibrant.hex;
 

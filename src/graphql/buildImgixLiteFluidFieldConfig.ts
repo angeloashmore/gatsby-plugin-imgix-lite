@@ -7,9 +7,10 @@ import {
 	ImgixLiteUrlParams,
 } from "../types";
 import { DEFAULT_FLUID_MAX_WIDTH } from "../constants";
-import { resolveFluid, ImgixLiteFluidArgs } from "../resolveFluid";
+import { resolveFluid, ImgixLiteFluidArgs } from "../resolvers/resolveFluid";
 
 type BuildImgixLiteFluidFieldConfigConfig<TSource> = {
+	namespace: string;
 	generateImageSource: GenerateImageSource<TSource>;
 	schema: NodePluginSchema;
 	defaultImgixParams?: ImgixLiteUrlParams;
@@ -24,7 +25,7 @@ export const buildImgixLiteFluidFieldConfig = <TSource, TContext>(
 	ImgixLiteFluidArgs
 > => {
 	return {
-		type: ImgixLiteGraphQLTypeName.ImageFluidObject,
+		type: config.namespace + ImgixLiteGraphQLTypeName.ImageFluidObject,
 		// IMPORTANT: These types must be kept in sync with `ImgixLiteFluidArgs`.
 		args: {
 			maxWidth: {

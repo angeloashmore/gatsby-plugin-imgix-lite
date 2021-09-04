@@ -7,9 +7,10 @@ import {
 	ImgixLiteUrlParams,
 } from "../types";
 import { DEFAULT_FIXED_WIDTH } from "../constants";
-import { resolveFixed, ImgixLiteFixedArgs } from "../resolveFixed";
+import { resolveFixed, ImgixLiteFixedArgs } from "../resolvers/resolveFixed";
 
 type BuildImgixLiteFixedFieldConfigConfig<TSource> = {
+	namespace: string;
 	generateImageSource: GenerateImageSource<TSource>;
 	schema: NodePluginSchema;
 	defaultImgixParams?: ImgixLiteUrlParams;
@@ -24,7 +25,7 @@ export const buildImgixLiteFixedFieldConfig = <TSource, TContext>(
 	ImgixLiteFixedArgs
 > => {
 	return {
-		type: ImgixLiteGraphQLTypeName.ImageFixedObject,
+		type: config.namespace + ImgixLiteGraphQLTypeName.ImageFixedObject,
 		// IMPORTANT: These types must be kept in sync with `ImgixLiteFluidArgs`.
 		args: {
 			width: {

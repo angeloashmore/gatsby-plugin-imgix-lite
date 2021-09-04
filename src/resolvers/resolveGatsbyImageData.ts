@@ -2,19 +2,24 @@ import {
 	IGatsbyImageData,
 	IGatsbyImageHelperArgs,
 	generateImageData,
+	getLowResolutionImageURL,
 } from "gatsby-plugin-image";
 
-import { name as pkgName } from "../package.json";
+import { name as pkgName } from "../../package.json";
+
+import { generateGatsbyImageDataSource } from "../lib/generateGatsbyImageDataSource";
 
 import {
 	ImageSource,
 	ImgixLiteGatsbyImageDataPlaceholderKind,
 	ImgixLiteUrlParams,
-} from "./types";
-import { generateGatsbyImageDataSource } from "./generateGatsbyImageDataSource";
+} from "../types";
 
 export type ImgixLiteGatsbyImageDataArgs = {
-	placeholder?: ImgixLiteGatsbyImageDataPlaceholderKind;
+	placeholder?: Exclude<
+		ImgixLiteGatsbyImageDataPlaceholderKind,
+		ImgixLiteGatsbyImageDataPlaceholderKind.DominantColor
+	>;
 	imgixParams?: ImgixLiteUrlParams;
 	placeholderImgixParams?: ImgixLiteUrlParams;
 };
@@ -39,6 +44,10 @@ export const resolveGatsbyImageData = (
 		generateImageSource: generateGatsbyImageDataSource,
 		options,
 	};
+
+	if (options.placeholder === ImgixLiteGatsbyImageDataPlaceholderKind.Blurred) {
+		imageDataArgs.placeholderURL = getLowResolutionImageURL(imageDataArgs);
+	}
 
 	return generateImageData(imageDataArgs);
 };

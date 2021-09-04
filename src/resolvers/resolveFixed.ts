@@ -1,15 +1,15 @@
 import type { FixedObject } from "gatsby-image";
 import ImgixClient from "@imgix/js-core";
 
-import { stripURLParameters } from "./lib/stripURLParameters";
-import { parseArParam } from "./lib/parseArParam";
+import { stripURLParameters } from "../lib/stripURLParameters";
+import { parseArParam } from "../lib/parseArParam";
 
-import { ImageSource, ImgixLiteUrlParams } from "./types";
+import { ImageSource, ImgixLiteUrlParams } from "../types";
 import {
 	DEFAULT_FIXED_WIDTH,
 	DEFAULT_IMGIX_PARAMS,
 	DEFAULT_PLACEHOLDER_IMGIX_PARAMS,
-} from "./constants";
+} from "../constants";
 
 export type ImgixLiteFixedArgs = {
 	width?: number;

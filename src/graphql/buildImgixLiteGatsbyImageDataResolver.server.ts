@@ -12,7 +12,7 @@ import {
 import {
 	ImgixLiteGatsbyImageDataArgs,
 	resolveGatsbyImageData,
-} from "../resolveGatsbyImageData.server";
+} from "../resolvers/resolveGatsbyImageData.server";
 
 type BuildImgixLiteGatsbyImageDataResolverConfig<TSource> = {
 	pluginName: string;

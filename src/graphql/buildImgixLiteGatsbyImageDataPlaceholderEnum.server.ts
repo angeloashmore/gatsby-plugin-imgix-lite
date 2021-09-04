@@ -6,6 +6,7 @@ import {
 } from "../types";
 
 type BuildImgixLiteGatsbyImageDataPlaceholderEnumConfig = {
+	namespace: string;
 	schema: NodePluginSchema;
 };
 
@@ -13,7 +14,7 @@ export const buildImgixLiteGatsbyImageDataPlaceholderEnum = (
 	config: BuildImgixLiteGatsbyImageDataPlaceholderEnumConfig,
 ): GatsbyGraphQLEnumType => {
 	return config.schema.buildEnumType({
-		name: ImgixLiteGraphQLTypeName.GatsbyImageDataPlaceholderEnum,
+		name: config.namespace + ImgixLiteGraphQLTypeName.ImageFixedObject,
 		values: {
 			BLURRED: {
 				value: ImgixLiteGatsbyImageDataPlaceholderKind.Blurred,

@@ -10,6 +10,7 @@ import { fetchBase64Image } from "../lib/fetchBase64Image.server";
 import { ImgixLiteGraphQLTypeName } from "../types";
 
 type BuildImgixLiteFixedObjectTypeConfig = {
+	namespace: string;
 	schema: NodePluginSchema;
 	cache: GatsbyCache;
 };
@@ -18,7 +19,7 @@ export const buildImgixLiteFixedObjectType = (
 	config: BuildImgixLiteFixedObjectTypeConfig,
 ): GatsbyGraphQLObjectType => {
 	return config.schema.buildObjectType({
-		name: ImgixLiteGraphQLTypeName.ImageFixedObject,
+		name: config.namespace + ImgixLiteGraphQLTypeName.ImageFixedObject,
 		fields: {
 			base64: {
 				type: "String!",

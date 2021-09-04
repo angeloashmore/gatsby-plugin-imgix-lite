@@ -1,16 +1,16 @@
 import type { FluidObject } from "gatsby-image";
 import ImgixClient, { SrcSetOptions } from "@imgix/js-core";
 
-import { stripURLParameters } from "./lib/stripURLParameters";
-import { parseArParam } from "./lib/parseArParam";
+import { stripURLParameters } from "../lib/stripURLParameters";
+import { parseArParam } from "../lib/parseArParam";
 
-import { ImageSource, ImgixLiteUrlParams } from "./types";
+import { ImageSource, ImgixLiteUrlParams } from "../types";
 import {
 	DEFAULT_FLUID_MAX_WIDTH,
 	DEFAULT_FLUID_SRC_SET_BREAKPOINT_FACTORS,
 	DEFAULT_IMGIX_PARAMS,
 	DEFAULT_PLACEHOLDER_IMGIX_PARAMS,
-} from "./constants";
+} from "../constants";
 
 export type ImgixLiteFluidArgs = {
 	maxWidth?: number;

@@ -51,7 +51,7 @@
 		"@imgix/js-core": "^3.2.1",
 		"camel-case": "^4.1.2",
 		"imgix-url-params": "^11.11.3",
-		"node-fetch": "^2.6.1"
+		"node-fetch": "^3.0.0"
 	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^4.29.1",
@@ -59,19 +59,19 @@
 		"ava": "^3.15.0",
 		"eslint": "^7.32.0",
 		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-prettier": "^3.4.0",
+		"eslint-plugin-prettier": "^4.0.0",
 		"eslint-plugin-tsdoc": "^0.2.14",
 		"gatsby": "^3.13.0",
 		"gatsby-image": "^3.11.0",
 		"gatsby-plugin-image": "^1.13.0",
-		"graphql-compose": "^7.25.1",
+		"graphql-compose": "^9.0.2",
 		"nyc": "^15.1.0",
 		"prettier": "^2.3.2",
 		"prettier-plugin-jsdoc": "^0.3.24",
-		"siroc": "^0.15.0",
+		"siroc": "^0.16.0",
 		"standard-version": "^9.3.1",
 		"ts-eager": "^2.0.2",
-		"typescript": "^4.3.5"
+		"typescript": "^4.4.2"
 	},
 	"peerDependencies": {
 		"gatsby": "^3.13.0",

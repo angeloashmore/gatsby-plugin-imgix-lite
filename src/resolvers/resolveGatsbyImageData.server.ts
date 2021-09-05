@@ -14,13 +14,11 @@ import { stripURLParameters } from "../lib/stripURLParameters";
 
 import { name as pkgName } from "../../package.json";
 
+import { ImageSource, ImgixParams, ImgixPalleteLike } from "../types";
 import {
-	ImageSource,
+	DEFAULT_IMGIX_PARAMS,
 	GatsbyImageDataPlaceholderKind,
-	ImgixParams,
-	ImgixPalleteLike,
-} from "../types";
-import { DEFAULT_IMGIX_PARAMS } from "../constants";
+} from "../constants";
 
 export type ImgixLiteGatsbyImageDataArgs = {
 	placeholder?: GatsbyImageDataPlaceholderKind;

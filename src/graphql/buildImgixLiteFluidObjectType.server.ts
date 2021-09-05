@@ -5,8 +5,9 @@ import type {
 } from "gatsby";
 import type { FluidObject } from "gatsby-image";
 
-import { GraphQLTypeName } from "../types";
 import { fetchBase64Image } from "../lib/fetchBase64Image.server";
+
+import { GraphQLTypeName } from "../constants";
 
 type BuildImgixLiteFluidObjectTypeConfig = {
 	namespace: string;

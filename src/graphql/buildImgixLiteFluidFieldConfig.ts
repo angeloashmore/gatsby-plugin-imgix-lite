@@ -1,14 +1,12 @@
-import type { NodePluginSchema } from "gatsby";
 import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-compose";
 
-import { GenerateImageSource, GraphQLTypeName, ImgixParams } from "../types";
-import { DEFAULT_FLUID_MAX_WIDTH } from "../constants";
+import { GenerateImageSource, ImgixParams } from "../types";
+import { DEFAULT_FLUID_MAX_WIDTH, GraphQLTypeName } from "../constants";
 import { resolveFluid, ImgixLiteFluidArgs } from "../resolvers/resolveFluid";
 
 type BuildImgixLiteFluidFieldConfigConfig<TSource> = {
 	namespace: string;
 	generateImageSource: GenerateImageSource<TSource>;
-	schema: NodePluginSchema;
 	defaultImgixParams?: ImgixParams;
 	defaultPlaceholderImgixParams?: ImgixParams;
 };
@@ -31,16 +29,16 @@ export const buildImgixLiteFluidFieldConfig = <TSource, TContext>(
 			maxHeight: "Int",
 			srcSetBreakpoints: "[Int!]",
 			imgixParams: {
-				type: GraphQLTypeName.ImgixParamsInputObject,
+				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
 				defaultValue: {},
 			},
 			placeholderImgixParams: {
-				type: GraphQLTypeName.ImgixParamsInputObject,
+				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
 				defaultValue: {},
 			},
 		},
-		resolve: (source, args) => {
-			const imageSource = config.generateImageSource(source);
+		resolve: async (source, args) => {
+			const imageSource = await config.generateImageSource(source);
 
 			if (imageSource !== null) {
 				return resolveFluid(

@@ -7,9 +7,13 @@ export type { ImgixLiteFluidArgs } from "./resolvers/resolveFluid";
 export { resolveGatsbyImageData } from "./resolvers/resolveGatsbyImageData";
 export type { ImgixLiteGatsbyImageDataArgs } from "./resolvers/resolveGatsbyImageData";
 
+export { GatsbyImageDataPlaceholderKind } from "./constants";
+
 export type {
 	ImageSource,
+	ImageSourceDimensions,
 	GenerateImageSource,
-	ImgixParams as ImgixLiteUrlParams,
-	GatsbyImageDataPlaceholderKind as ImgixLiteGatsbyImageDataPlaceholderKind,
+	ImgixParams,
 } from "./types";
+
+export { SourceType } from "./plugin/constants";

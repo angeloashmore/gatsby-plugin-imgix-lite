@@ -7,7 +7,7 @@ import type { FixedObject } from "gatsby-image";
 
 import { fetchBase64Image } from "../lib/fetchBase64Image.server";
 
-import { GraphQLTypeName } from "../types";
+import { GraphQLTypeName } from "../constants";
 
 type BuildImgixLiteFixedObjectTypeConfig = {
 	namespace: string;

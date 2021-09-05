@@ -30,3 +30,44 @@ export const DEFAULT_PLACEHOLDER_IMGIX_PARAMS: ImgixParams = {
 	blur: 15,
 	q: 20,
 };
+
+/**
+ * GraphQL type names used for GraphQL type and field builders.
+ */
+export enum GraphQLTypeName {
+	/**
+	 * Gatsby Image placeholder kinds.
+	 */
+	GatsbyImageDataPlaceholderEnum = "GatsbyImageDataPlaceholder",
+
+	/**
+	 * Imgix parameters used in Imgix's URL API.
+	 */
+	ImgixParamsInputObject = "ImgixParamsInputObject",
+
+	/**
+	 * `gatsby-plugin-image` gatsbyImageData objects.
+	 */
+	GatsbyImageDataObject = "GatsbyImageData",
+
+	/**
+	 * `gatsby-image` fixed objects.
+	 */
+	FixedObject = "Fixed",
+
+	/**
+	 * `gatsby-image` fluid objects.
+	 */
+	FluidObject = "Fluid",
+}
+
+/**
+ * Gatsby Image placeholder kinds.
+ *
+ * @see Gatsby Image plugin documentation: {@link https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-plugin-image/#placeholder}
+ */
+export enum GatsbyImageDataPlaceholderKind {
+	Blurred = "blurred",
+	DominantColor = "dominantColor",
+	None = "none",
+}

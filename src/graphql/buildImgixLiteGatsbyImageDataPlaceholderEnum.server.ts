@@ -1,6 +1,6 @@
 import type { NodePluginSchema, GatsbyGraphQLEnumType } from "gatsby";
 
-import { GatsbyImageDataPlaceholderKind, GraphQLTypeName } from "../types";
+import { GatsbyImageDataPlaceholderKind, GraphQLTypeName } from "../constants";
 
 type BuildImgixLiteGatsbyImageDataPlaceholderEnumConfig = {
 	namespace: string;

@@ -1,34 +1,33 @@
-import type { NodePluginSchema, GatsbyCache } from "gatsby";
-import {
-	IGatsbyGraphQLFieldConfig,
-	getGatsbyImageResolver,
-} from "gatsby-plugin-image/graphql-utils";
+import type { GatsbyCache } from "gatsby";
+import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-compose";
+import { getGatsbyImageResolver } from "gatsby-plugin-image/graphql-utils";
 
-import { GenerateImageSource, GraphQLTypeName, ImgixParams } from "../types";
+import { GenerateImageSource, ImgixParams } from "../types";
+import { GraphQLTypeName } from "../constants";
 import {
 	ImgixLiteGatsbyImageDataArgs,
 	resolveGatsbyImageData,
 } from "../resolvers/resolveGatsbyImageData.server";
 
 type BuildImgixLiteGatsbyImageDataResolverConfig<TSource> = {
+	namespace: string;
 	pluginName: string;
 	generateImageSource: GenerateImageSource<TSource>;
-	schema: NodePluginSchema;
 	cache: GatsbyCache;
 	defaultImgixParams?: ImgixParams;
 	defaultPlaceholderImgixParams?: ImgixParams;
 };
 
-export const buildImgixLiteGatsbyImageDataResolver = <TSource, TContext>(
+export const buildImgixLiteGatsbyImageDataFieldConfig = <TSource, TContext>(
 	config: BuildImgixLiteGatsbyImageDataResolverConfig<TSource>,
-): IGatsbyGraphQLFieldConfig<
+): ObjectTypeComposerFieldConfigAsObjectDefinition<
 	TSource,
 	TContext,
 	ImgixLiteGatsbyImageDataArgs
 > => {
 	return getGatsbyImageResolver(
-		(source, args) => {
-			const imageSource = config.generateImageSource(source);
+		async (source, args) => {
+			const imageSource = await config.generateImageSource(source);
 
 			if (imageSource !== null) {
 				return resolveGatsbyImageData(
@@ -59,14 +58,18 @@ export const buildImgixLiteGatsbyImageDataResolver = <TSource, TContext>(
 		// IMPORTANT: These types must be kept in sync with `ImgixLiteGatsbyImageDataArgs`.
 		{
 			placeholder: {
-				type: GraphQLTypeName.GatsbyImageDataPlaceholderEnum,
+				type: config.namespace + GraphQLTypeName.GatsbyImageDataPlaceholderEnum,
 			},
 			imgixParams: {
-				type: GraphQLTypeName.ImgixParamsInputObject,
+				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
 			},
 			placeholderImgixParams: {
-				type: GraphQLTypeName.ImgixParamsInputObject,
+				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
 			},
 		},
-	);
+	) as ObjectTypeComposerFieldConfigAsObjectDefinition<
+		TSource,
+		TContext,
+		ImgixLiteGatsbyImageDataArgs
+	>;
 };

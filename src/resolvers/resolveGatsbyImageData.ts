@@ -9,11 +9,8 @@ import { name as pkgName } from "../../package.json";
 
 import { generateGatsbyImageDataSource } from "../lib/generateGatsbyImageDataSource";
 
-import {
-	ImageSource,
-	GatsbyImageDataPlaceholderKind,
-	ImgixParams,
-} from "../types";
+import { ImageSource, ImgixParams } from "../types";
+import { GatsbyImageDataPlaceholderKind } from "../constants";
 
 export type ImgixLiteGatsbyImageDataArgs = {
 	placeholder?: Exclude<

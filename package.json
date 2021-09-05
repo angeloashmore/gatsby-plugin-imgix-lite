@@ -15,7 +15,6 @@
 	},
 	"license": "MIT",
 	"author": "Angelo Ashmore",
-	"type": "module",
 	"exports": {
 		".": {
 			"require": "./dist/index.cjs",
@@ -25,6 +24,7 @@
 			"require": "./dist/index.server.cjs",
 			"import": "./dist/index.server.mjs"
 		},
+		"./plugin": "./dist/plugin/gatsby-node.cjs",
 		"./package.json": "./package.json"
 	},
 	"main": "dist/index.cjs",

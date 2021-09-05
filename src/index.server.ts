@@ -3,7 +3,8 @@ export { buildImgixLiteFixedObjectType } from "./graphql/buildImgixLiteFixedObje
 export { buildImgixLiteFluidFieldConfig } from "./graphql/buildImgixLiteFluidFieldConfig";
 export { buildImgixLiteFluidObjectType } from "./graphql/buildImgixLiteFluidObjectType.server";
 export { buildImgixLiteGatsbyImageDataPlaceholderEnum } from "./graphql/buildImgixLiteGatsbyImageDataPlaceholderEnum.server";
-export { buildImgixLiteGatsbyImageDataResolver } from "./graphql/buildImgixLiteGatsbyImageDataResolver.server";
+export { buildImgixLiteGatsbyImageDataFieldConfig } from "./graphql/buildImgixLiteGatsbyImageDataResolver.server";
+export { buildImgixLiteUrlFieldConfig } from "./graphql/buildImgixLiteUrlFieldConfig.server";
 export { buildImgixLiteUrlParamsInputObjectType } from "./graphql/buildImgixLiteUrlParamsInputObjectType.server";
 
 export { resolveFixed } from "./resolvers/resolveFixed";
@@ -15,9 +16,15 @@ export type { ImgixLiteFluidArgs } from "./resolvers/resolveFluid";
 export { resolveGatsbyImageData } from "./resolvers/resolveGatsbyImageData.server";
 export type { ImgixLiteGatsbyImageDataArgs } from "./resolvers/resolveGatsbyImageData.server";
 
+export { fetchImageDimensions } from "./lib/fetchImageDimensions.server";
+
+export { GatsbyImageDataPlaceholderKind } from "./constants";
+
 export type {
 	ImageSource,
+	ImageSourceDimensions,
 	GenerateImageSource,
-	ImgixParams as ImgixLiteUrlParams,
-	GatsbyImageDataPlaceholderKind as ImgixLiteGatsbyImageDataPlaceholderKind,
+	ImgixParams,
 } from "./types";
+
+export { SourceType } from "./plugin/constants";

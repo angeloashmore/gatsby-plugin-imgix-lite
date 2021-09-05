@@ -12,9 +12,14 @@ import { fetchBase64Image } from "../lib/fetchBase64Image.server";
 import { generateGatsbyImageDataSource } from "../lib/generateGatsbyImageDataSource";
 import { stripURLParameters } from "../lib/stripURLParameters";
 
-import { name as pkgName } from "../../package.json";
+import { name as packageName } from "../../package.json";
 
-import { ImageSource, ImgixParams, ImgixPalleteLike } from "../types";
+import {
+	ImageSource,
+	ImgixParams,
+	ImgixPalleteLike,
+	ImgixClientConfig,
+} from "../types";
 import {
 	DEFAULT_IMGIX_PARAMS,
 	GatsbyImageDataPlaceholderKind,
@@ -29,6 +34,7 @@ export type ImgixLiteGatsbyImageDataArgs = {
 type ResolveGatsbyImageDataConfig = {
 	cache: GatsbyCache;
 	pluginName?: string;
+	imgixClientConfig?: Partial<ImgixClientConfig>;
 };
 
 export const resolveGatsbyImageData = async (
@@ -37,7 +43,7 @@ export const resolveGatsbyImageData = async (
 	config: ResolveGatsbyImageDataConfig,
 ): Promise<IGatsbyImageData | null> => {
 	const imageDataArgs: IGatsbyImageHelperArgs = {
-		pluginName: config.pluginName || pkgName,
+		pluginName: config.pluginName || packageName,
 		sourceMetadata: {
 			width: image.width,
 			height: image.height,
@@ -65,6 +71,7 @@ export const resolveGatsbyImageData = async (
 			const url = stripURLParameters(image.url);
 			const client = new ImgixClient({
 				domain: new URL(url).hostname,
+				...config.imgixClientConfig,
 			});
 
 			const palleteUrl = client.buildURL(url, {

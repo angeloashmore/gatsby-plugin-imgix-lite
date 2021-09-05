@@ -1,6 +1,6 @@
 import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-compose";
 
-import { GenerateImageSource, ImgixParams } from "../types";
+import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { DEFAULT_FLUID_MAX_WIDTH, GraphQLTypeName } from "../constants";
 import { resolveFluid, ImgixLiteFluidArgs } from "../resolvers/resolveFluid";
 
@@ -9,6 +9,7 @@ type BuildImgixLiteFluidFieldConfigConfig<TSource> = {
 	generateImageSource: GenerateImageSource<TSource>;
 	defaultImgixParams?: ImgixParams;
 	defaultPlaceholderImgixParams?: ImgixParams;
+	imgixClientConfig?: Partial<ImgixClientConfig>;
 };
 
 export const buildImgixLiteFluidFieldConfig = <TSource, TContext>(
@@ -57,6 +58,9 @@ export const buildImgixLiteFluidFieldConfig = <TSource, TContext>(
 							...config.defaultPlaceholderImgixParams,
 							...args.placeholderImgixParams,
 						},
+					},
+					{
+						imgixClientConfig: config.imgixClientConfig,
 					},
 				);
 			} else {

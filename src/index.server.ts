@@ -16,7 +16,7 @@ export type { ImgixLiteFluidArgs } from "./resolvers/resolveFluid";
 export { resolveGatsbyImageData } from "./resolvers/resolveGatsbyImageData.server";
 export type { ImgixLiteGatsbyImageDataArgs } from "./resolvers/resolveGatsbyImageData.server";
 
-export { fetchImageDimensions } from "./lib/fetchImageDimensions.server";
+export { generateImageSourceFromUrl } from "./lib/generateImageSourceFromUrl.server";
 
 export { GatsbyImageDataPlaceholderKind } from "./constants";
 
@@ -25,6 +25,7 @@ export type {
 	ImageSourceDimensions,
 	GenerateImageSource,
 	ImgixParams,
+	ImgixClientConfig,
 } from "./types";
 
 export { SourceType } from "./plugin/constants";

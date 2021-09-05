@@ -1,3 +1,5 @@
+import type ImgixClient from "@imgix/js-core";
+
 /**
  * Imgix parameters used in Imgix's URL API.
  *
@@ -55,11 +57,8 @@ export interface ImageSourceDimensions {
 }
 
 /**
- * A function that converts an image object from your data into an object used
- * by the Gatsby image resolvers.
- *
- * This function will be provided to the GraphQL field config builders to create
- * a Gatsby image resolver using your image data.
+ * A function that converts an object from your data into image metadata used by
+ * the Gatsby image resolvers.
  *
  * @example
  *
@@ -90,3 +89,5 @@ export interface ImageSourceDimensions {
 export type GenerateImageSource<TSource> = (
 	source: TSource,
 ) => ImageSource | null | Promise<ImageSource | null>;
+
+export type ImgixClientConfig = ConstructorParameters<typeof ImgixClient>[0];

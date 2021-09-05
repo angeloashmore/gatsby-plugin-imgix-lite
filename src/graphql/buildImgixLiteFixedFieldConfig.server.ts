@@ -1,6 +1,6 @@
 import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-compose";
 
-import { GenerateImageSource, ImgixParams } from "../types";
+import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { DEFAULT_FIXED_WIDTH, GraphQLTypeName } from "../constants";
 import { resolveFixed, ImgixLiteFixedArgs } from "../resolvers/resolveFixed";
 
@@ -9,6 +9,7 @@ type BuildImgixLiteFixedFieldConfigConfig<TSource> = {
 	generateImageSource: GenerateImageSource<TSource>;
 	defaultImgixParams?: ImgixParams;
 	defaultPlaceholderImgixParams?: ImgixParams;
+	imgixClientConfig?: Partial<ImgixClientConfig>;
 };
 
 export const buildImgixLiteFixedFieldConfig = <TSource, TContext>(
@@ -56,6 +57,9 @@ export const buildImgixLiteFixedFieldConfig = <TSource, TContext>(
 							...config.defaultPlaceholderImgixParams,
 							...args.placeholderImgixParams,
 						},
+					},
+					{
+						imgixClientConfig: config.imgixClientConfig,
 					},
 				);
 			} else {

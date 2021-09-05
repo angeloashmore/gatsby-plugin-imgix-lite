@@ -1,43 +1,19 @@
-import { GatsbyNode, GatsbyCache } from "gatsby";
-
-import { name as pkgName } from "../../package.json";
+import { GatsbyNode } from "gatsby";
 
 import {
 	GenerateImageSource,
-	buildImgixLiteFixedFieldConfig,
 	buildImgixLiteFixedObjectType,
-	buildImgixLiteFluidFieldConfig,
 	buildImgixLiteFluidObjectType,
-	buildImgixLiteGatsbyImageDataFieldConfig,
 	buildImgixLiteGatsbyImageDataPlaceholderEnum,
-	buildImgixLiteUrlFieldConfig,
 	buildImgixLiteUrlParamsInputObjectType,
-	fetchImageDimensions,
-	ImageSource,
+	generateImageSourceFromUrl,
+	ImgixClientConfig,
 } from "../index.server";
 
-import { NAMESPACE } from "./constants";
+import { NAMESPACE, SourceType } from "./constants";
 import { GenerateImageSources, PluginOptions } from "./types";
-
-type GenerateImageSourceFromUrlConfig = {
-	cache: GatsbyCache;
-};
-
-const generateImageSourceFromUrl = async (
-	url: string,
-	config: GenerateImageSourceFromUrlConfig,
-): Promise<ImageSource | null> => {
-	const dimensions = await fetchImageDimensions({
-		url,
-		cache: config.cache,
-	});
-
-	return {
-		url,
-		width: dimensions.width,
-		height: dimensions.height,
-	};
-};
+import { buildImgixImageObjectType } from "./buildImgixImageObjectType";
+import { buildQueryObjectType } from "./buildQueryObjectType";
 
 export const createSchemaCustomization: NonNullable<
 	GatsbyNode["createSchemaCustomization"]
@@ -45,34 +21,21 @@ export const createSchemaCustomization: NonNullable<
 	const { actions, cache, schema } = args;
 	const { createTypes } = actions;
 
-	const imageImgixObjectType = schema.buildObjectType({
-		name: "ImgixImage",
-		fields: {
-			url: buildImgixLiteUrlFieldConfig({
-				namespace: NAMESPACE,
-				generateImageSource: (source) => source,
-			}),
-			fixed: buildImgixLiteFixedFieldConfig({
-				namespace: NAMESPACE,
-				generateImageSource: (source) => source,
-				defaultImgixParams: options.defaultImgixParams,
-				defaultPlaceholderImgixParams: options.defaultImgixParams,
-			}),
-			fluid: buildImgixLiteFluidFieldConfig({
-				namespace: NAMESPACE,
-				generateImageSource: (source) => source,
-				defaultImgixParams: options.defaultImgixParams,
-				defaultPlaceholderImgixParams: options.defaultImgixParams,
-			}),
-			gatsbyImageData: buildImgixLiteGatsbyImageDataFieldConfig({
-				namespace: NAMESPACE,
-				cache,
-				pluginName: pkgName,
-				generateImageSource: (source) => source,
-				defaultImgixParams: options.defaultImgixParams,
-				defaultPlaceholderImgixParams: options.defaultImgixParams,
-			}),
-		},
+	const imgixClientConfig: Partial<ImgixClientConfig> = {
+		includeLibraryParam: !options.disableIxlibParam,
+	};
+	if (options.sourceType === SourceType.WebProxy) {
+		imgixClientConfig.domain = options.domain;
+		imgixClientConfig.secureURLToken = options.secureURLToken;
+	}
+
+	const imgixImageObjectType = buildImgixImageObjectType({
+		namespace: NAMESPACE,
+		cache,
+		schema,
+		defaultImgixParams: options.defaultImgixParams,
+		defaultPlaceholderImgixParams: options.defaultImgixParams,
+		imgixClientConfig,
 	});
 
 	const baseImgixTypes = [
@@ -94,7 +57,12 @@ export const createSchemaCustomization: NonNullable<
 			namespace: NAMESPACE,
 			schema,
 		}),
-		imageImgixObjectType,
+		buildQueryObjectType({
+			namespace: NAMESPACE,
+			cache,
+			schema,
+		}),
+		imgixImageObjectType,
 	];
 
 	const userImgixImageFieldTypes = options.fields.map((fieldConfig) => {
@@ -140,8 +108,8 @@ export const createSchemaCustomization: NonNullable<
 			fields: {
 				[fieldConfig.fieldName]: {
 					type: isList
-						? `[${imageImgixObjectType.config.name}]`
-						: imageImgixObjectType.config.name,
+						? `[${imgixImageObjectType.config.name}]`
+						: imgixImageObjectType.config.name,
 					resolve: async (source: unknown) => {
 						return await sourceGenerator(source);
 					},

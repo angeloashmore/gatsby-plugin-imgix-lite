@@ -24,7 +24,7 @@
 			"require": "./dist/index.server.cjs",
 			"import": "./dist/index.server.mjs"
 		},
-		"./plugin": "./dist/plugin/gatsby-node.cjs",
+		"./gatsby-node": "./dist/plugin/gatsby-node.cjs",
 		"./package.json": "./package.json"
 	},
 	"main": "dist/index.cjs",

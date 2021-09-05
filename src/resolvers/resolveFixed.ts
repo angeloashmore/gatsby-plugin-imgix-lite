@@ -4,7 +4,7 @@ import ImgixClient from "@imgix/js-core";
 import { stripURLParameters } from "../lib/stripURLParameters";
 import { parseArParam } from "../lib/parseArParam";
 
-import { ImageSource, ImgixParams } from "../types";
+import { ImageSource, ImgixParams, ImgixClientConfig } from "../types";
 import {
 	DEFAULT_FIXED_WIDTH,
 	DEFAULT_IMGIX_PARAMS,
@@ -18,20 +18,26 @@ export type ImgixLiteFixedArgs = {
 	placeholderImgixParams?: ImgixParams;
 };
 
+export type ResolveFluidConfig = {
+	imgixClientConfig?: Partial<ImgixClientConfig>;
+};
+
 export const resolveFixed = (
 	source: ImageSource,
-	options?: ImgixLiteFixedArgs,
+	options: ImgixLiteFixedArgs = {},
+	config: ResolveFluidConfig = {},
 ): FixedObject => {
 	const resolvedOptions = {
-		width: options?.width ?? DEFAULT_FIXED_WIDTH,
-		height: options?.height,
-		imgixParams: options?.imgixParams ?? {},
-		placeholderImgixParams: options?.placeholderImgixParams ?? {},
+		width: options.width ?? DEFAULT_FIXED_WIDTH,
+		height: options.height,
+		imgixParams: options.imgixParams || {},
+		placeholderImgixParams: options.placeholderImgixParams || {},
 	};
 
 	const url = stripURLParameters(source.url);
 	const client = new ImgixClient({
 		domain: new URL(url).hostname,
+		...config.imgixClientConfig,
 	});
 
 	let aspectRatio = source.width / source.height;

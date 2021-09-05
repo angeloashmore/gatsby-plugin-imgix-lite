@@ -5,11 +5,11 @@ import {
 	getLowResolutionImageURL,
 } from "gatsby-plugin-image";
 
-import { name as pkgName } from "../../package.json";
+import { name as packageName } from "../../package.json";
 
 import { generateGatsbyImageDataSource } from "../lib/generateGatsbyImageDataSource";
 
-import { ImageSource, ImgixParams } from "../types";
+import { ImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { GatsbyImageDataPlaceholderKind } from "../constants";
 
 export type ImgixLiteGatsbyImageDataArgs = {
@@ -22,16 +22,17 @@ export type ImgixLiteGatsbyImageDataArgs = {
 };
 
 type ResolveGatsbyImageDataConfig = {
-	pluginName: string;
+	pluginName?: string;
+	imgixClientConfig?: Partial<ImgixClientConfig>;
 };
 
 export const resolveGatsbyImageData = (
 	image: ImageSource,
 	options: ImgixLiteGatsbyImageDataArgs = {},
-	config?: ResolveGatsbyImageDataConfig,
+	config: ResolveGatsbyImageDataConfig = {},
 ): IGatsbyImageData => {
 	const imageDataArgs: IGatsbyImageHelperArgs = {
-		pluginName: config?.pluginName || pkgName,
+		pluginName: config.pluginName || packageName,
 		sourceMetadata: {
 			width: image.width,
 			height: image.height,

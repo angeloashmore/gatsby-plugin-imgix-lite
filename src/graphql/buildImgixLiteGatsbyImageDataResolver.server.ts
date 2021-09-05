@@ -2,7 +2,7 @@ import type { GatsbyCache } from "gatsby";
 import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-compose";
 import { getGatsbyImageResolver } from "gatsby-plugin-image/graphql-utils";
 
-import { GenerateImageSource, ImgixParams } from "../types";
+import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { GraphQLTypeName } from "../constants";
 import {
 	ImgixLiteGatsbyImageDataArgs,
@@ -16,6 +16,7 @@ type BuildImgixLiteGatsbyImageDataResolverConfig<TSource> = {
 	cache: GatsbyCache;
 	defaultImgixParams?: ImgixParams;
 	defaultPlaceholderImgixParams?: ImgixParams;
+	imgixClientConfig?: Partial<ImgixClientConfig>;
 };
 
 export const buildImgixLiteGatsbyImageDataFieldConfig = <TSource, TContext>(
@@ -50,6 +51,7 @@ export const buildImgixLiteGatsbyImageDataFieldConfig = <TSource, TContext>(
 					{
 						cache: config.cache,
 						pluginName: config.pluginName,
+						imgixClientConfig: config.imgixClientConfig,
 					},
 				);
 			}

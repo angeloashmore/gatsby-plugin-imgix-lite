@@ -3,7 +3,7 @@ import ImgixClient from "@imgix/js-core";
 
 import { stripURLParameters } from "../lib/stripURLParameters";
 
-import { GenerateImageSource, ImgixParams } from "../types";
+import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { DEFAULT_IMGIX_PARAMS, GraphQLTypeName } from "../constants";
 
 type ImgixLiteUrlArgs = {
@@ -13,6 +13,9 @@ type ImgixLiteUrlArgs = {
 type BuildImgixLiteUrlFieldConfigConfig<TSource> = {
 	namespace: string;
 	generateImageSource: GenerateImageSource<TSource>;
+	client?: ImgixClient;
+	defaultImgixParams?: ImgixParams;
+	imgixClientConfig?: Partial<ImgixClientConfig>;
 };
 
 export const buildImgixLiteUrlFieldConfig = <TSource, TContext>(
@@ -38,10 +41,12 @@ export const buildImgixLiteUrlFieldConfig = <TSource, TContext>(
 				const url = stripURLParameters(imageSource.url);
 				const client = new ImgixClient({
 					domain: new URL(url).hostname,
+					...config.imgixClientConfig,
 				});
 
 				return client.buildURL(url, {
 					...DEFAULT_IMGIX_PARAMS,
+					...config.defaultImgixParams,
 					...args.imgixParams,
 				});
 			} else {

@@ -7,3 +7,13 @@ export enum SourceType {
 	WebFolder = "webFolder",
 	WebProxy = "webProxy",
 }
+
+/**
+ * GraphQL type names used for GraphQL type and field builders.
+ */
+export enum GraphQLTypeName {
+	/**
+	 * Collection of Imgix image resolvers.
+	 */
+	Image = "Image",
+}

@@ -4,7 +4,7 @@ import ImgixClient, { SrcSetOptions } from "@imgix/js-core";
 import { stripURLParameters } from "../lib/stripURLParameters";
 import { parseArParam } from "../lib/parseArParam";
 
-import { ImageSource, ImgixParams } from "../types";
+import { ImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import {
 	DEFAULT_FLUID_MAX_WIDTH,
 	DEFAULT_FLUID_SRC_SET_BREAKPOINT_FACTORS,
@@ -20,25 +20,31 @@ export type ImgixLiteFluidArgs = {
 	placeholderImgixParams?: ImgixParams;
 };
 
+type ResolveFluidConfig = {
+	imgixClientConfig?: Partial<ImgixClientConfig>;
+};
+
 export const resolveFluid = (
 	source: ImageSource,
-	options?: ImgixLiteFluidArgs,
+	options: ImgixLiteFluidArgs = {},
+	config: ResolveFluidConfig = {},
 ): FluidObject => {
 	const resolvedOptions = {
-		maxWidth: options?.maxWidth ?? DEFAULT_FLUID_MAX_WIDTH,
-		maxHeight: options?.maxHeight,
+		maxWidth: options.maxWidth ?? DEFAULT_FLUID_MAX_WIDTH,
+		maxHeight: options.maxHeight,
 		srcSetBreakpoints:
-			options?.srcSetBreakpoints ??
+			options.srcSetBreakpoints ||
 			DEFAULT_FLUID_SRC_SET_BREAKPOINT_FACTORS.map(
-				(factor) => (options?.maxWidth ?? DEFAULT_FLUID_MAX_WIDTH) * factor,
+				(factor) => (options.maxWidth ?? DEFAULT_FLUID_MAX_WIDTH) * factor,
 			),
-		imgixParams: options?.imgixParams ?? {},
-		placeholderImgixParams: options?.placeholderImgixParams ?? {},
+		imgixParams: options.imgixParams || {},
+		placeholderImgixParams: options.placeholderImgixParams || {},
 	};
 
 	const url = stripURLParameters(source.url);
 	const client = new ImgixClient({
 		domain: new URL(url).hostname,
+		...config.imgixClientConfig,
 	});
 
 	let aspectRatio = source.width / source.height;

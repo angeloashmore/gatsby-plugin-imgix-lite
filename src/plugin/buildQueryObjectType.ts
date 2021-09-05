@@ -4,7 +4,8 @@ import type {
 	GatsbyGraphQLObjectType,
 } from "gatsby";
 
-import { generateImageSourceFromUrl, ImageSource } from "../index.server";
+import { ImageSource } from "../index";
+import { generateImageSourceFromUrl } from "../index.server";
 
 import { GraphQLTypeName } from "./constants";
 

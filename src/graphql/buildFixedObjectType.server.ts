@@ -3,27 +3,27 @@ import type {
 	GatsbyCache,
 	GatsbyGraphQLObjectType,
 } from "gatsby";
-import type { FluidObject } from "gatsby-image";
+import type { FixedObject } from "gatsby-image";
 
 import { fetchBase64Image } from "../lib/fetchBase64Image.server";
 
 import { GraphQLTypeName } from "../constants";
 
-type BuildImgixLiteFluidObjectTypeConfig = {
+export type BuildFixedObjectTypeConfig = {
 	namespace: string;
 	schema: NodePluginSchema;
 	cache: GatsbyCache;
 };
 
-export const buildImgixLiteFluidObjectType = (
-	config: BuildImgixLiteFluidObjectTypeConfig,
+export const buildFixedObjectType = (
+	config: BuildFixedObjectTypeConfig,
 ): GatsbyGraphQLObjectType => {
 	return config.schema.buildObjectType({
-		name: config.namespace + GraphQLTypeName.FluidObject,
+		name: config.namespace + GraphQLTypeName.FixedObject,
 		fields: {
 			base64: {
 				type: "String!",
-				resolve: async (source: FluidObject) => {
+				resolve: async (source: FixedObject) => {
 					if (source.base64 != null) {
 						return await fetchBase64Image({
 							url: source.base64,
@@ -37,7 +37,8 @@ export const buildImgixLiteFluidObjectType = (
 			srcWebp: "String!",
 			srcSetWebp: "String!",
 			sizes: "String!",
-			aspectRatio: "Float!",
+			width: "Int!",
+			height: "Int!",
 		},
 	});
 };

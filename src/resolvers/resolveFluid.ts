@@ -12,7 +12,7 @@ import {
 	DEFAULT_PLACEHOLDER_IMGIX_PARAMS,
 } from "../constants";
 
-export type ImgixLiteFluidArgs = {
+export type FluidArgs = {
 	maxWidth?: number;
 	maxHeight?: number | null;
 	srcSetBreakpoints?: number[];
@@ -26,7 +26,7 @@ type ResolveFluidConfig = {
 
 export const resolveFluid = (
 	source: ImageSource,
-	options: ImgixLiteFluidArgs = {},
+	options: FluidArgs = {},
 	config: ResolveFluidConfig = {},
 ): FluidObject => {
 	const resolvedOptions = {

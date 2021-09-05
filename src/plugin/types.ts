@@ -1,6 +1,7 @@
 import { PluginOptions as GatsbyPluginOptions } from "gatsby";
 
-import { GenerateImageSource, ImgixParams, ImageSource } from "../index.server";
+import { ImgixParams, ImageSource } from "../index";
+import { GenerateImageSource } from "../index.server";
 import { SourceType } from "./constants";
 
 export type PluginOptions = GatsbyPluginOptions & {

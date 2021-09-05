@@ -6,11 +6,11 @@ import { stripURLParameters } from "../lib/stripURLParameters";
 import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { DEFAULT_IMGIX_PARAMS, GraphQLTypeName } from "../constants";
 
-type ImgixLiteUrlArgs = {
+export type UrlArgs = {
 	imgixParams: ImgixParams;
 };
 
-type BuildImgixLiteUrlFieldConfigConfig<TSource> = {
+export type BuildUrlFieldConfigConfig<TSource> = {
 	namespace: string;
 	generateImageSource: GenerateImageSource<TSource>;
 	client?: ImgixClient;
@@ -18,16 +18,16 @@ type BuildImgixLiteUrlFieldConfigConfig<TSource> = {
 	imgixClientConfig?: Partial<ImgixClientConfig>;
 };
 
-export const buildImgixLiteUrlFieldConfig = <TSource, TContext>(
-	config: BuildImgixLiteUrlFieldConfigConfig<TSource>,
+export const buildUrlFieldConfig = <TSource, TContext>(
+	config: BuildUrlFieldConfigConfig<TSource>,
 ): ObjectTypeComposerFieldConfigAsObjectDefinition<
 	TSource,
 	TContext,
-	ImgixLiteUrlArgs
+	UrlArgs
 > => {
 	return {
 		type: "String",
-		// IMPORTANT: These types must be kept in sync with `ImgixLiteUrlArgs`.
+		// IMPORTANT: These types must be kept in sync with `ImgixUrlArgs`.
 		args: {
 			imgixParams: {
 				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,

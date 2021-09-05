@@ -1,31 +1,37 @@
-export { buildImgixLiteFixedFieldConfig } from "./graphql/buildImgixLiteFixedFieldConfig.server";
-export { buildImgixLiteFixedObjectType } from "./graphql/buildImgixLiteFixedObjectType.server";
-export { buildImgixLiteFluidFieldConfig } from "./graphql/buildImgixLiteFluidFieldConfig";
-export { buildImgixLiteFluidObjectType } from "./graphql/buildImgixLiteFluidObjectType.server";
-export { buildImgixLiteGatsbyImageDataPlaceholderEnum } from "./graphql/buildImgixLiteGatsbyImageDataPlaceholderEnum.server";
-export { buildImgixLiteGatsbyImageDataFieldConfig } from "./graphql/buildImgixLiteGatsbyImageDataResolver.server";
-export { buildImgixLiteUrlFieldConfig } from "./graphql/buildImgixLiteUrlFieldConfig.server";
-export { buildImgixLiteUrlParamsInputObjectType } from "./graphql/buildImgixLiteUrlParamsInputObjectType.server";
+export { buildFixedFieldConfig } from "./graphql/buildFixedFieldConfig.server";
+export type { BuildFixedFieldConfigConfig } from "./graphql/buildFixedFieldConfig.server";
 
-export { resolveFixed } from "./resolvers/resolveFixed";
-export type { ImgixLiteFixedArgs } from "./resolvers/resolveFixed";
+export { buildFixedObjectType } from "./graphql/buildFixedObjectType.server";
+export type { BuildFixedObjectTypeConfig } from "./graphql/buildFixedObjectType.server";
 
-export { resolveFluid } from "./resolvers/resolveFluid";
-export type { ImgixLiteFluidArgs } from "./resolvers/resolveFluid";
+export { buildFluidFieldConfig } from "./graphql/buildFluidFieldConfig.server";
+export type { BuildFluidFieldConfigConfig } from "./graphql/buildFluidFieldConfig.server";
+
+export { buildFluidObjectType } from "./graphql/buildFluidObjectType.server";
+export type { BuildFluidObjectTypeConfig } from "./graphql/buildFluidObjectType.server";
+
+export { buildGatsbyImageDataPlaceholderEnum } from "./graphql/buildGatsbyImageDataPlaceholderEnum.server";
+export type { BuildGatsbyImageDataPlaceholderEnumConfig } from "./graphql/buildGatsbyImageDataPlaceholderEnum.server";
+
+export { buildGatsbyImageDataFieldConfig } from "./graphql/buildGatsbyImageDataFieldConfig.server";
+export type { BuildGatsbyImageDataFieldConfigConfig } from "./graphql/buildGatsbyImageDataFieldConfig.server";
+
+export { buildUrlFieldConfig } from "./graphql/buildUrlFieldConfig.server";
+export type {
+	BuildUrlFieldConfigConfig,
+	UrlArgs,
+} from "./graphql/buildUrlFieldConfig.server";
+
+export { buildImgixUrlParamsInputObjectType } from "./graphql/buildImgixUrlParamsInputObjectType.server";
+export type { BuildImgixUrlParamsInputObjectTypeConfig } from "./graphql/buildImgixUrlParamsInputObjectType.server";
 
 export { resolveGatsbyImageData } from "./resolvers/resolveGatsbyImageData.server";
-export type { ImgixLiteGatsbyImageDataArgs } from "./resolvers/resolveGatsbyImageData.server";
+export type { GatsbyImageDataArgs } from "./resolvers/resolveGatsbyImageData.server";
 
 export { generateImageSourceFromUrl } from "./lib/generateImageSourceFromUrl.server";
 
 export { GatsbyImageDataPlaceholderKind } from "./constants";
 
-export type {
-	ImageSource,
-	ImageSourceDimensions,
-	GenerateImageSource,
-	ImgixParams,
-	ImgixClientConfig,
-} from "./types";
-
 export { SourceType } from "./plugin/constants";
+
+export type { GenerateImageSource, ImgixClientConfig } from "./types";

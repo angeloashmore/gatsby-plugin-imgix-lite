@@ -25,7 +25,7 @@ import {
 	GatsbyImageDataPlaceholderKind,
 } from "../constants";
 
-export type ImgixLiteGatsbyImageDataArgs = {
+export type GatsbyImageDataArgs = {
 	placeholder?: GatsbyImageDataPlaceholderKind;
 	imgixParams?: ImgixParams;
 	placeholderImgixParams?: ImgixParams;
@@ -39,7 +39,7 @@ type ResolveGatsbyImageDataConfig = {
 
 export const resolveGatsbyImageData = async (
 	image: ImageSource,
-	options: ImgixLiteGatsbyImageDataArgs = {},
+	options: GatsbyImageDataArgs = {},
 	config: ResolveGatsbyImageDataConfig,
 ): Promise<IGatsbyImageData | null> => {
 	const imageDataArgs: IGatsbyImageHelperArgs = {

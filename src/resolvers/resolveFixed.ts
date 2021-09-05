@@ -11,7 +11,7 @@ import {
 	DEFAULT_PLACEHOLDER_IMGIX_PARAMS,
 } from "../constants";
 
-export type ImgixLiteFixedArgs = {
+export type FixedArgs = {
 	width?: number;
 	height?: number | null;
 	imgixParams?: ImgixParams;
@@ -24,7 +24,7 @@ export type ResolveFluidConfig = {
 
 export const resolveFixed = (
 	source: ImageSource,
-	options: ImgixLiteFixedArgs = {},
+	options: FixedArgs = {},
 	config: ResolveFluidConfig = {},
 ): FixedObject => {
 	const resolvedOptions = {

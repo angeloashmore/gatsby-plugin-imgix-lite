@@ -2,9 +2,9 @@ import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-co
 
 import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { DEFAULT_FLUID_MAX_WIDTH, GraphQLTypeName } from "../constants";
-import { resolveFluid, ImgixLiteFluidArgs } from "../resolvers/resolveFluid";
+import { resolveFluid, FluidArgs } from "../resolvers/resolveFluid";
 
-type BuildImgixLiteFluidFieldConfigConfig<TSource> = {
+export type BuildFluidFieldConfigConfig<TSource> = {
 	namespace: string;
 	generateImageSource: GenerateImageSource<TSource>;
 	defaultImgixParams?: ImgixParams;
@@ -12,16 +12,16 @@ type BuildImgixLiteFluidFieldConfigConfig<TSource> = {
 	imgixClientConfig?: Partial<ImgixClientConfig>;
 };
 
-export const buildImgixLiteFluidFieldConfig = <TSource, TContext>(
-	config: BuildImgixLiteFluidFieldConfigConfig<TSource>,
+export const buildFluidFieldConfig = <TSource, TContext>(
+	config: BuildFluidFieldConfigConfig<TSource>,
 ): ObjectTypeComposerFieldConfigAsObjectDefinition<
 	TSource,
 	TContext,
-	ImgixLiteFluidArgs
+	FluidArgs
 > => {
 	return {
 		type: config.namespace + GraphQLTypeName.FluidObject,
-		// IMPORTANT: These types must be kept in sync with `ImgixLiteFluidArgs`.
+		// IMPORTANT: These types must be kept in sync with `FluidArgs`.
 		args: {
 			maxWidth: {
 				type: "Int",

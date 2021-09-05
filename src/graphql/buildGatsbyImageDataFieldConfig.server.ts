@@ -5,11 +5,11 @@ import { getGatsbyImageResolver } from "gatsby-plugin-image/graphql-utils";
 import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { GraphQLTypeName } from "../constants";
 import {
-	ImgixLiteGatsbyImageDataArgs,
+	GatsbyImageDataArgs,
 	resolveGatsbyImageData,
 } from "../resolvers/resolveGatsbyImageData.server";
 
-type BuildImgixLiteGatsbyImageDataResolverConfig<TSource> = {
+export type BuildGatsbyImageDataFieldConfigConfig<TSource> = {
 	namespace: string;
 	pluginName: string;
 	generateImageSource: GenerateImageSource<TSource>;
@@ -19,12 +19,12 @@ type BuildImgixLiteGatsbyImageDataResolverConfig<TSource> = {
 	imgixClientConfig?: Partial<ImgixClientConfig>;
 };
 
-export const buildImgixLiteGatsbyImageDataFieldConfig = <TSource, TContext>(
-	config: BuildImgixLiteGatsbyImageDataResolverConfig<TSource>,
+export const buildGatsbyImageDataFieldConfig = <TSource, TContext>(
+	config: BuildGatsbyImageDataFieldConfigConfig<TSource>,
 ): ObjectTypeComposerFieldConfigAsObjectDefinition<
 	TSource,
 	TContext,
-	ImgixLiteGatsbyImageDataArgs
+	GatsbyImageDataArgs
 > => {
 	return getGatsbyImageResolver(
 		async (source, args) => {
@@ -57,7 +57,7 @@ export const buildImgixLiteGatsbyImageDataFieldConfig = <TSource, TContext>(
 			}
 		},
 
-		// IMPORTANT: These types must be kept in sync with `ImgixLiteGatsbyImageDataArgs`.
+		// IMPORTANT: These types must be kept in sync with `GatsbyImageDataArgs`.
 		{
 			placeholder: {
 				type: config.namespace + GraphQLTypeName.GatsbyImageDataPlaceholderEnum,
@@ -72,6 +72,6 @@ export const buildImgixLiteGatsbyImageDataFieldConfig = <TSource, TContext>(
 	) as ObjectTypeComposerFieldConfigAsObjectDefinition<
 		TSource,
 		TContext,
-		ImgixLiteGatsbyImageDataArgs
+		GatsbyImageDataArgs
 	>;
 };

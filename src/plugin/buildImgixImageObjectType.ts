@@ -6,13 +6,12 @@ import type {
 
 import { name as packageName } from "../../package.json";
 
+import { ImgixParams, ImgixClientConfig } from "../index";
 import {
-	buildImgixLiteFixedFieldConfig,
-	buildImgixLiteFluidFieldConfig,
-	buildImgixLiteGatsbyImageDataFieldConfig,
-	buildImgixLiteUrlFieldConfig,
-	ImgixParams,
-	ImgixClientConfig,
+	buildUrlFieldConfig,
+	buildFixedFieldConfig,
+	buildFluidFieldConfig,
+	buildGatsbyImageDataFieldConfig,
 } from "../index.server";
 
 import { GraphQLTypeName, NAMESPACE } from "./constants";
@@ -33,21 +32,13 @@ export const buildImgixImageObjectType = (
 		name: config.namespace + GraphQLTypeName.Image,
 		fields: {
 			// @ts-expect-error - complex type resolution issue
-			url: buildImgixLiteUrlFieldConfig({
+			url: buildUrlFieldConfig({
 				namespace: NAMESPACE,
 				generateImageSource: (source) => source,
 				imgixClientConfig: config.imgixClientConfig,
 			}),
 			// @ts-expect-error - complex type resolution issue
-			fixed: buildImgixLiteFixedFieldConfig({
-				namespace: NAMESPACE,
-				generateImageSource: (source) => source,
-				defaultImgixParams: config.defaultImgixParams,
-				defaultPlaceholderImgixParams: config.defaultImgixParams,
-				imgixClientConfig: config.imgixClientConfig,
-			}),
-			// @ts-expect-error - complex type resolution issue
-			fluid: buildImgixLiteFluidFieldConfig({
+			fixed: buildFixedFieldConfig({
 				namespace: NAMESPACE,
 				generateImageSource: (source) => source,
 				defaultImgixParams: config.defaultImgixParams,
@@ -55,7 +46,15 @@ export const buildImgixImageObjectType = (
 				imgixClientConfig: config.imgixClientConfig,
 			}),
 			// @ts-expect-error - complex type resolution issue
-			gatsbyImageData: buildImgixLiteGatsbyImageDataFieldConfig({
+			fluid: buildFluidFieldConfig({
+				namespace: NAMESPACE,
+				generateImageSource: (source) => source,
+				defaultImgixParams: config.defaultImgixParams,
+				defaultPlaceholderImgixParams: config.defaultImgixParams,
+				imgixClientConfig: config.imgixClientConfig,
+			}),
+			// @ts-expect-error - complex type resolution issue
+			gatsbyImageData: buildGatsbyImageDataFieldConfig({
 				namespace: NAMESPACE,
 				cache: config.cache,
 				pluginName: packageName,

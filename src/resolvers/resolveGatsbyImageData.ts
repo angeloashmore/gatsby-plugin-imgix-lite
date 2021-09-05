@@ -12,7 +12,7 @@ import { generateGatsbyImageDataSource } from "../lib/generateGatsbyImageDataSou
 import { ImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { GatsbyImageDataPlaceholderKind } from "../constants";
 
-export type ImgixLiteGatsbyImageDataArgs = {
+export type GatsbyImageDataArgs = {
 	placeholder?: Exclude<
 		GatsbyImageDataPlaceholderKind,
 		GatsbyImageDataPlaceholderKind.DominantColor
@@ -28,7 +28,7 @@ type ResolveGatsbyImageDataConfig = {
 
 export const resolveGatsbyImageData = (
 	image: ImageSource,
-	options: ImgixLiteGatsbyImageDataArgs = {},
+	options: GatsbyImageDataArgs = {},
 	config: ResolveGatsbyImageDataConfig = {},
 ): IGatsbyImageData => {
 	const imageDataArgs: IGatsbyImageHelperArgs = {

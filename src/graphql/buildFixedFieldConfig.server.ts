@@ -2,9 +2,9 @@ import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-co
 
 import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { DEFAULT_FIXED_WIDTH, GraphQLTypeName } from "../constants";
-import { resolveFixed, ImgixLiteFixedArgs } from "../resolvers/resolveFixed";
+import { resolveFixed, FixedArgs } from "../resolvers/resolveFixed";
 
-type BuildImgixLiteFixedFieldConfigConfig<TSource> = {
+export type BuildFixedFieldConfigConfig<TSource> = {
 	namespace: string;
 	generateImageSource: GenerateImageSource<TSource>;
 	defaultImgixParams?: ImgixParams;
@@ -12,16 +12,16 @@ type BuildImgixLiteFixedFieldConfigConfig<TSource> = {
 	imgixClientConfig?: Partial<ImgixClientConfig>;
 };
 
-export const buildImgixLiteFixedFieldConfig = <TSource, TContext>(
-	config: BuildImgixLiteFixedFieldConfigConfig<TSource>,
+export const buildFixedFieldConfig = <TSource, TContext>(
+	config: BuildFixedFieldConfigConfig<TSource>,
 ): ObjectTypeComposerFieldConfigAsObjectDefinition<
 	TSource,
 	TContext,
-	ImgixLiteFixedArgs
+	FixedArgs
 > => {
 	return {
 		type: config.namespace + GraphQLTypeName.FixedObject,
-		// IMPORTANT: These types must be kept in sync with `ImgixLiteFluidArgs`.
+		// IMPORTANT: These types must be kept in sync with `FluidArgs`.
 		args: {
 			width: {
 				type: "Int",

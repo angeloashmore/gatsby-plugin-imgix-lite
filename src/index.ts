@@ -1,23 +1,10 @@
-export { resolveFixed } from "./resolvers/resolveFixed";
-export type { ImgixLiteFixedArgs } from "./resolvers/resolveFixed";
+export { resolveFixed as buildFixedImageData } from "./resolvers/resolveFixed";
+export type { FixedArgs } from "./resolvers/resolveFixed";
 
-export { resolveFluid } from "./resolvers/resolveFluid";
-export type { ImgixLiteFluidArgs } from "./resolvers/resolveFluid";
-
-export { resolveGatsbyImageData } from "./resolvers/resolveGatsbyImageData";
-export type { ImgixLiteGatsbyImageDataArgs } from "./resolvers/resolveGatsbyImageData";
+export { resolveFluid as buildFluidImageData } from "./resolvers/resolveFluid";
+export type { FluidArgs } from "./resolvers/resolveFluid";
 
 export { getGatsbyImageData } from "./getGatsbyImageData";
 export type { GetGatsbyImageDataConfig } from "./getGatsbyImageData";
 
-export { GatsbyImageDataPlaceholderKind } from "./constants";
-
-export type {
-	ImageSource,
-	ImageSourceDimensions,
-	GenerateImageSource,
-	ImgixParams,
-	ImgixClientConfig,
-} from "./types";
-
-export { SourceType } from "./plugin/constants";
+export type { ImageSource, ImageSourceDimensions, ImgixParams } from "./types";

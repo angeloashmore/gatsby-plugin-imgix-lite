@@ -2,13 +2,13 @@ import type { NodePluginSchema, GatsbyGraphQLEnumType } from "gatsby";
 
 import { GatsbyImageDataPlaceholderKind, GraphQLTypeName } from "../constants";
 
-type BuildImgixLiteGatsbyImageDataPlaceholderEnumConfig = {
+export type BuildGatsbyImageDataPlaceholderEnumConfig = {
 	namespace: string;
 	schema: NodePluginSchema;
 };
 
-export const buildImgixLiteGatsbyImageDataPlaceholderEnum = (
-	config: BuildImgixLiteGatsbyImageDataPlaceholderEnumConfig,
+export const buildGatsbyImageDataPlaceholderEnum = (
+	config: BuildGatsbyImageDataPlaceholderEnumConfig,
 ): GatsbyGraphQLEnumType => {
 	return config.schema.buildEnumType({
 		name: config.namespace + GraphQLTypeName.FixedObject,

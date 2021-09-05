@@ -2,12 +2,12 @@ import { GatsbyNode } from "gatsby";
 
 import {
 	GenerateImageSource,
-	buildImgixLiteFixedObjectType,
-	buildImgixLiteFluidObjectType,
-	buildImgixLiteGatsbyImageDataPlaceholderEnum,
-	buildImgixLiteUrlParamsInputObjectType,
-	generateImageSourceFromUrl,
 	ImgixClientConfig,
+	buildFixedObjectType,
+	buildFluidObjectType,
+	buildGatsbyImageDataPlaceholderEnum,
+	buildImgixUrlParamsInputObjectType,
+	generateImageSourceFromUrl,
 } from "../index.server";
 
 import { NAMESPACE, SourceType } from "./constants";
@@ -39,21 +39,21 @@ export const createSchemaCustomization: NonNullable<
 	});
 
 	const baseImgixTypes = [
-		buildImgixLiteFixedObjectType({
+		buildFixedObjectType({
 			namespace: NAMESPACE,
 			cache,
 			schema,
 		}),
-		buildImgixLiteFluidObjectType({
+		buildFluidObjectType({
 			namespace: NAMESPACE,
 			cache,
 			schema,
 		}),
-		buildImgixLiteUrlParamsInputObjectType({
+		buildImgixUrlParamsInputObjectType({
 			namespace: NAMESPACE,
 			schema,
 		}),
-		buildImgixLiteGatsbyImageDataPlaceholderEnum({
+		buildGatsbyImageDataPlaceholderEnum({
 			namespace: NAMESPACE,
 			schema,
 		}),

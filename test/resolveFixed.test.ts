@@ -73,14 +73,14 @@ test("resolves to a fixed object with default options", macro, {
 
 test("resolves to a fixed object with set width", macro, {
 	options: {
-		width: 800,
+		width: 200,
 	},
 	expected: {
-		width: 800,
-		height: 400,
+		width: 200,
+		height: 100,
 		imgixParams: {
-			w: 800,
-			h: 400,
+			w: 200,
+			h: 100,
 		},
 		placeholderImgixParams: {
 			w: 20,
@@ -90,17 +90,16 @@ test("resolves to a fixed object with set width", macro, {
 	},
 });
 
-// TODO: The width needs to be calculated from the given height.
-test.skip("resolves to a fixed object with set height", macro, {
+test("resolves to a fixed object with set height", macro, {
 	options: {
-		height: 400,
+		height: 100,
 	},
 	expected: {
-		width: 800,
-		height: 400,
+		width: 200,
+		height: 100,
 		imgixParams: {
-			w: 800,
-			h: 400,
+			w: 200,
+			h: 100,
 		},
 		placeholderImgixParams: {
 			w: 20,
@@ -110,16 +109,17 @@ test.skip("resolves to a fixed object with set height", macro, {
 	},
 });
 
-test("treats a null height option as undefined", macro, {
+test("resolves to a fixed object with set width and height", macro, {
 	options: {
-		height: null,
+		width: 300,
+		height: 100,
 	},
 	expected: {
-		width: 400,
-		height: 200,
+		width: 300,
+		height: 100,
 		imgixParams: {
-			w: 400,
-			h: 200,
+			w: 300,
+			h: 100,
 		},
 		placeholderImgixParams: {
 			w: 20,

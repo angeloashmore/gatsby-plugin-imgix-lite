@@ -26,13 +26,6 @@ export const resolveFixed = (
 	options: FixedArgs = {},
 	config: ResolveFluidConfig = {},
 ): FixedObject => {
-	const resolvedOptions = {
-		width: options.width ?? DEFAULT_FIXED_WIDTH,
-		height: options.height,
-		imgixParams: options.imgixParams || {},
-		placeholderImgixParams: options.placeholderImgixParams || {},
-	};
-
 	const url = new URL(source.url);
 	const filename = url.pathname;
 	const client = new ImgixClient({
@@ -41,20 +34,35 @@ export const resolveFixed = (
 	});
 
 	let aspectRatio = source.width / source.height;
-	if (typeof resolvedOptions.imgixParams.ar === "string") {
-		const parsedAr = parseArParam(resolvedOptions.imgixParams.ar);
+	if (typeof options.imgixParams?.ar === "string") {
+		const parsedAr = parseArParam(options.imgixParams?.ar);
 
 		if (!Number.isNaN(parsedAr)) {
 			aspectRatio = parsedAr;
 		}
 	}
 
-	const width = resolvedOptions.width;
-	const height = resolvedOptions.height ?? Math.round(width / aspectRatio);
+	let width = DEFAULT_FIXED_WIDTH;
+	let height = Math.round(width / aspectRatio);
+	if (options.width != null) {
+		width = options.width;
+		if (options.height != null) {
+			height = options.height;
+		} else {
+			height = Math.round(width / aspectRatio);
+		}
+	} else if (options.height != null) {
+		height = options.height;
+		if (options.width != null) {
+			width = options.width;
+		} else {
+			width = Math.round(height * aspectRatio);
+		}
+	}
 
 	const imgixParams: ImgixParams = {
 		...DEFAULT_IMGIX_PARAMS,
-		...resolvedOptions.imgixParams,
+		...options.imgixParams,
 		w: width,
 		h: height,
 	};
@@ -66,9 +74,9 @@ export const resolveFixed = (
 
 	const placeholderImgixParams: ImgixParams = {
 		...DEFAULT_IMGIX_PARAMS,
-		...resolvedOptions.imgixParams,
+		...options.imgixParams,
 		...DEFAULT_PLACEHOLDER_IMGIX_PARAMS,
-		...resolvedOptions.placeholderImgixParams,
+		...options.placeholderImgixParams,
 	};
 
 	return {

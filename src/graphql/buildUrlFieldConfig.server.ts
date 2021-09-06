@@ -1,8 +1,6 @@
 import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-compose";
 import ImgixClient from "@imgix/js-core";
 
-import { stripURLParameters } from "../lib/stripURLParameters";
-
 import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { DEFAULT_IMGIX_PARAMS, GraphQLTypeName } from "../constants";
 
@@ -38,13 +36,14 @@ export const buildUrlFieldConfig = <TSource, TContext>(
 			const imageSource = await config.generateImageSource(source);
 
 			if (imageSource !== null) {
-				const url = stripURLParameters(imageSource.url);
+				const url = new URL(imageSource.url);
+				const filename = url.pathname;
 				const client = new ImgixClient({
-					domain: new URL(url).hostname,
+					domain: url.hostname,
 					...config.imgixClientConfig,
 				});
 
-				return client.buildURL(url, {
+				return client.buildURL(filename, {
 					...DEFAULT_IMGIX_PARAMS,
 					...config.defaultImgixParams,
 					...args.imgixParams,

@@ -4,13 +4,12 @@ import ImgixClient from "@imgix/js-core";
 import { DEFAULT_IMGIX_PARAMS } from "../constants";
 import type { GatsbyImageDataArgs } from "../resolvers/resolveGatsbyImageData";
 
-import { stripURLParameters } from "./stripURLParameters";
-
 export const generateGatsbyImageDataSource: IGatsbyImageHelperArgs["generateImageSource"] =
-	(filename, width, height, format, _fit, options?: GatsbyImageDataArgs) => {
-		const url = stripURLParameters(filename);
+	(sourceUrl, width, height, format, _fit, options?: GatsbyImageDataArgs) => {
+		const url = new URL(sourceUrl);
+		const filename = url.pathname;
 		const client = new ImgixClient({
-			domain: new URL(url).hostname,
+			domain: url.hostname,
 		});
 
 		const imgixParams = {
@@ -21,7 +20,7 @@ export const generateGatsbyImageDataSource: IGatsbyImageHelperArgs["generateImag
 		};
 
 		return {
-			src: client.buildURL(url, imgixParams),
+			src: client.buildURL(filename, imgixParams),
 			width,
 			height,
 			format,

@@ -1,7 +1,6 @@
 import type { FluidObject } from "gatsby-image";
 import ImgixClient, { SrcSetOptions } from "@imgix/js-core";
 
-import { stripURLParameters } from "../lib/stripURLParameters";
 import { parseArParam } from "../lib/parseArParam";
 
 import { ImageSource, ImgixClientConfig, ImgixParams } from "../types";
@@ -41,9 +40,10 @@ export const resolveFluid = (
 		placeholderImgixParams: options.placeholderImgixParams || {},
 	};
 
-	const url = stripURLParameters(source.url);
+	const url = new URL(source.url);
+	const filename = url.pathname;
 	const client = new ImgixClient({
-		domain: new URL(url).hostname,
+		domain: url.hostname,
 		...config.imgixClientConfig,
 	});
 
@@ -95,11 +95,11 @@ export const resolveFluid = (
 
 	return {
 		aspectRatio,
-		base64: client.buildURL(url, placeholderImgixParams),
-		src: client.buildURL(url, imgixParams),
-		srcWebp: client.buildURL(url, imgixParamsWebp),
-		srcSet: client.buildSrcSet(url, imgixParams, srcSetOptions),
-		srcSetWebp: client.buildSrcSet(url, imgixParamsWebp, srcSetOptions),
+		base64: client.buildURL(filename, placeholderImgixParams),
+		src: client.buildURL(filename, imgixParams),
+		srcWebp: client.buildURL(filename, imgixParamsWebp),
+		srcSet: client.buildSrcSet(filename, imgixParams, srcSetOptions),
+		srcSetWebp: client.buildSrcSet(filename, imgixParamsWebp, srcSetOptions),
 		sizes: "(min-width: 8192px) 8192px 100vw",
 	};
 };

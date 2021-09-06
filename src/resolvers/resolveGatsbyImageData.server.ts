@@ -10,7 +10,6 @@ import fetch from "node-fetch";
 
 import { fetchBase64Image } from "../lib/fetchBase64Image.server";
 import { generateGatsbyImageDataSource } from "../lib/generateGatsbyImageDataSource";
-import { stripURLParameters } from "../lib/stripURLParameters";
 
 import { name as packageName } from "../../package.json";
 
@@ -68,13 +67,14 @@ export const resolveGatsbyImageData = async (
 		if (cacheValue) {
 			imageDataArgs.backgroundColor = cacheValue;
 		} else {
-			const url = stripURLParameters(image.url);
+			const url = new URL(image.url);
+			const filename = url.pathname;
 			const client = new ImgixClient({
-				domain: new URL(url).hostname,
+				domain: url.hostname,
 				...config.imgixClientConfig,
 			});
 
-			const palleteUrl = client.buildURL(url, {
+			const palleteUrl = client.buildURL(filename, {
 				...DEFAULT_IMGIX_PARAMS,
 				...options.imgixParams,
 			});

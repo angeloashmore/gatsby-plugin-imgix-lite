@@ -1,7 +1,6 @@
 import type { FixedObject } from "gatsby-image";
 import ImgixClient from "@imgix/js-core";
 
-import { stripURLParameters } from "../lib/stripURLParameters";
 import { parseArParam } from "../lib/parseArParam";
 
 import { ImageSource, ImgixParams, ImgixClientConfig } from "../types";
@@ -34,24 +33,19 @@ export const resolveFixed = (
 		placeholderImgixParams: options.placeholderImgixParams || {},
 	};
 
-	const url = stripURLParameters(source.url);
+	const url = new URL(source.url);
+	const filename = url.pathname;
 	const client = new ImgixClient({
-		domain: new URL(url).hostname,
+		domain: url.hostname,
 		...config.imgixClientConfig,
 	});
 
 	let aspectRatio = source.width / source.height;
-	if (resolvedOptions.imgixParams.ar === "string") {
+	if (typeof resolvedOptions.imgixParams.ar === "string") {
 		const parsedAr = parseArParam(resolvedOptions.imgixParams.ar);
 
 		if (!Number.isNaN(parsedAr)) {
 			aspectRatio = parsedAr;
-		}
-	} else if (resolvedOptions.width != null && resolvedOptions.height != null) {
-		const requestedAr = resolvedOptions.width / resolvedOptions.height;
-
-		if (requestedAr > 0 && Number.isFinite(requestedAr)) {
-			aspectRatio = requestedAr;
 		}
 	}
 
@@ -71,7 +65,8 @@ export const resolveFixed = (
 	};
 
 	const placeholderImgixParams: ImgixParams = {
-		...imgixParams,
+		...DEFAULT_IMGIX_PARAMS,
+		...resolvedOptions.imgixParams,
 		...DEFAULT_PLACEHOLDER_IMGIX_PARAMS,
 		...resolvedOptions.placeholderImgixParams,
 	};
@@ -79,10 +74,10 @@ export const resolveFixed = (
 	return {
 		width,
 		height,
-		base64: client.buildURL(url, placeholderImgixParams),
-		src: client.buildURL(url, imgixParams),
-		srcWebp: client.buildURL(url, imgixParamsWebp),
-		srcSet: client.buildSrcSet(url, imgixParams),
-		srcSetWebp: client.buildSrcSet(url, imgixParamsWebp),
+		base64: client.buildURL(filename, placeholderImgixParams),
+		src: client.buildURL(filename, imgixParams),
+		srcWebp: client.buildURL(filename, imgixParamsWebp),
+		srcSet: client.buildSrcSet(filename, imgixParams),
+		srcSetWebp: client.buildSrcSet(filename, imgixParamsWebp),
 	};
 };

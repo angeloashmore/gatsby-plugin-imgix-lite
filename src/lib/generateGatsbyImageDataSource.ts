@@ -17,6 +17,7 @@ export const generateGatsbyImageDataSource: IGatsbyImageHelperArgs["generateImag
 			...options?.imgixParams,
 			w: width,
 			h: height,
+			fm: format,
 		};
 
 		return {

@@ -3,18 +3,17 @@ import ImgixClient from "@imgix/js-core";
 
 import * as lib from "../src";
 
-type FixedTestMacroConfig = {
+type FluidTestMacroConfig = {
 	url?: string;
-	options?: lib.FixedArgs;
+	options?: lib.FluidArgs;
 	expected: {
-		width: number;
-		height: number;
+		aspectRatio: number;
 		imgixParams: lib.ImgixParams;
 		placeholderImgixParams: lib.ImgixParams;
 	};
 };
 
-const macro = (t: ExecutionContext, config: FixedTestMacroConfig) => {
+const macro = (t: ExecutionContext, config: FluidTestMacroConfig) => {
 	const url = new URL(config.url ?? "https://example.com/image.png?foo=bar");
 
 	const imageSource: lib.ImageSource = {
@@ -42,87 +41,87 @@ const macro = (t: ExecutionContext, config: FixedTestMacroConfig) => {
 		...config.expected.placeholderImgixParams,
 	};
 
-	const actual = lib.resolveFixed(imageSource, config.options);
+	const actual = lib.resolveFluid(imageSource, config.options);
 
 	t.deepEqual(actual, {
-		width: config.expected.width,
-		height: config.expected.height,
+		aspectRatio: config.expected.aspectRatio,
 		base64: client.buildURL(url.pathname, placeholderImgixParams),
 		src: client.buildURL(url.pathname, imgixParams),
 		srcWebp: client.buildURL(url.pathname, imgixParamsWebp),
 		srcSet: client.buildSrcSet(url.pathname, imgixParams),
 		srcSetWebp: client.buildSrcSet(url.pathname, imgixParamsWebp),
+		sizes: "(min-width: 8192px) 8192px 100vw",
 	});
 };
 
-test("resolves to a fixed object with default options", macro, {
+test("resolves to a fluid object with default options", macro, {
 	expected: {
-		width: 400,
-		height: 200,
+		aspectRatio: 2,
+		imgixParams: {
+			w: 800,
+			ar: "2:1",
+		},
+		placeholderImgixParams: {
+			w: 20,
+			ar: "2:1",
+			blur: 15,
+			q: 20,
+		},
+	},
+});
+
+test("resolves to a fluid object with set max width", macro, {
+	options: {
+		maxWidth: 400,
+	},
+	expected: {
+		aspectRatio: 2,
 		imgixParams: {
 			w: 400,
-			h: 200,
+			ar: "2:1",
 		},
 		placeholderImgixParams: {
 			w: 20,
+			ar: "2:1",
 			blur: 15,
 			q: 20,
 		},
 	},
 });
 
-test("resolves to a fixed object with set width", macro, {
+test("resolves to a fluid object with set max height", macro, {
 	options: {
-		width: 200,
+		maxHeight: 200,
 	},
 	expected: {
-		width: 200,
-		height: 100,
+		aspectRatio: 2,
 		imgixParams: {
-			w: 200,
-			h: 100,
+			w: 400,
+			ar: "2:1",
 		},
 		placeholderImgixParams: {
 			w: 20,
+			ar: "2:1",
 			blur: 15,
 			q: 20,
 		},
 	},
 });
 
-test("resolves to a fixed object with set height", macro, {
+test("resolves to a fluid object with set max width and max height", macro, {
 	options: {
-		height: 100,
+		maxWidth: 400,
+		maxHeight: 100,
 	},
 	expected: {
-		width: 200,
-		height: 100,
+		aspectRatio: 4,
 		imgixParams: {
-			w: 200,
-			h: 100,
+			w: 400,
+			ar: "4:1",
 		},
 		placeholderImgixParams: {
 			w: 20,
-			blur: 15,
-			q: 20,
-		},
-	},
-});
-
-test("resolves to a fixed object with set width and height", macro, {
-	options: {
-		width: 300,
-		height: 100,
-	},
-	expected: {
-		width: 300,
-		height: 100,
-		imgixParams: {
-			w: 300,
-			h: 100,
-		},
-		placeholderImgixParams: {
-			w: 20,
+			ar: "4:1",
 			blur: 15,
 			q: 20,
 		},
@@ -136,16 +135,16 @@ test("includes provided imgix params", macro, {
 		},
 	},
 	expected: {
-		width: 400,
-		height: 200,
+		aspectRatio: 2,
 		imgixParams: {
 			sat: 100,
-			w: 400,
-			h: 200,
+			w: 800,
+			ar: "2:1",
 		},
 		placeholderImgixParams: {
 			sat: 100,
 			w: 20,
+			ar: "2:1",
 			blur: 15,
 			q: 20,
 		},
@@ -159,12 +158,10 @@ test("uses the `ar` Imgix parameter as the resolved aspect ratio", macro, {
 		},
 	},
 	expected: {
-		width: 400,
-		height: 100,
+		aspectRatio: 4,
 		imgixParams: {
 			ar: "4:1",
-			w: 400,
-			h: 100,
+			w: 800,
 		},
 		placeholderImgixParams: {
 			ar: "4:1",
@@ -185,15 +182,13 @@ test(
 			},
 		},
 		expected: {
-			width: 400,
-			height: 200,
+			aspectRatio: 2,
 			imgixParams: {
-				ar: "invalid",
-				w: 400,
-				h: 200,
+				ar: "2:1",
+				w: 800,
 			},
 			placeholderImgixParams: {
-				ar: "invalid",
+				ar: "2:1",
 				w: 20,
 				blur: 15,
 				q: 20,

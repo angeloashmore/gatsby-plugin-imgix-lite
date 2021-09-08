@@ -35,7 +35,7 @@ export const resolveFixed = (
 
 	let aspectRatio = source.width / source.height;
 	if (typeof options.imgixParams?.ar === "string") {
-		const parsedAr = parseArParam(options.imgixParams?.ar);
+		const parsedAr = parseArParam(options.imgixParams.ar);
 
 		if (!Number.isNaN(parsedAr)) {
 			aspectRatio = parsedAr;

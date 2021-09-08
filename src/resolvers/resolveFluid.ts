@@ -29,7 +29,7 @@ export const resolveFluid = (
 	config: ResolveFluidConfig = {},
 ): FluidObject => {
 	const resolvedOptions = {
-		maxWidth: options.maxWidth ?? DEFAULT_FLUID_MAX_WIDTH,
+		maxWidth: options.maxWidth,
 		maxHeight: options.maxHeight,
 		srcSetBreakpoints:
 			options.srcSetBreakpoints ||
@@ -48,33 +48,28 @@ export const resolveFluid = (
 	});
 
 	let aspectRatio = source.width / source.height;
-	if (resolvedOptions.imgixParams.ar === "string") {
-		const parsedAr = parseArParam(resolvedOptions.imgixParams.ar);
+	if (typeof options.imgixParams?.ar === "string") {
+		const parsedAr = parseArParam(options.imgixParams.ar);
 
 		if (!Number.isNaN(parsedAr)) {
 			aspectRatio = parsedAr;
 		}
-	} else if (
-		resolvedOptions.maxWidth != null &&
-		resolvedOptions.maxHeight != null
-	) {
-		const requestedAr = resolvedOptions.maxWidth / resolvedOptions.maxHeight;
-
-		if (requestedAr > 0 && Number.isFinite(requestedAr)) {
-			aspectRatio = requestedAr;
-		}
+	} else if (options.maxWidth != null && options.maxHeight != null) {
+		aspectRatio = options.maxWidth / options.maxHeight;
 	}
 
-	const maxWidth = resolvedOptions.maxWidth;
-	const maxHeight =
-		resolvedOptions.maxHeight ?? Math.round(maxWidth / aspectRatio);
+	let maxWidth = DEFAULT_FLUID_MAX_WIDTH;
+	if (options.maxWidth != null) {
+		maxWidth = options.maxWidth;
+	} else if (options.maxHeight != null) {
+		maxWidth = Math.round(options.maxHeight * aspectRatio);
+	}
 
 	const imgixParams: ImgixParams = {
 		...DEFAULT_IMGIX_PARAMS,
 		...resolvedOptions.imgixParams,
 		w: maxWidth,
-		h: maxHeight,
-		ar: aspectRatio,
+		ar: `${aspectRatio}:1`,
 	};
 
 	const imgixParamsWebp = {

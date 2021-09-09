@@ -21,20 +21,20 @@ export const buildFixedFieldConfig = <TSource, TContext>(
 > => {
 	return {
 		type: config.namespace + GraphQLTypeName.FixedObject,
-		// IMPORTANT: These types must be kept in sync with `FluidArgs`.
+		// IMPORTANT: These types must be kept in sync with `FixedArgs`.
 		args: {
 			width: {
 				type: "Int",
 				defaultValue: DEFAULT_FIXED_WIDTH,
 			},
-			height: "Int",
+			height: {
+				type: "Int",
+			},
 			imgixParams: {
 				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
-				defaultValue: {},
 			},
 			placeholderImgixParams: {
 				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
-				defaultValue: {},
 			},
 		},
 		resolve: async (source, args) => {

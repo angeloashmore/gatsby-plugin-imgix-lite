@@ -23,22 +23,24 @@ export const buildFixedObjectType = (
 		fields: {
 			base64: {
 				type: "String!",
-				resolve: async (source: FixedObject) => {
-					if (source.base64 != null) {
+				resolve: async (source: FixedObject | null) => {
+					if (source?.base64 != null) {
 						return await fetchBase64Image({
 							url: source.base64,
 							cache: config.cache,
 						});
+					} else {
+						return null;
 					}
 				},
 			},
-			src: "String!",
-			srcSet: "String!",
-			srcWebp: "String!",
-			srcSetWebp: "String!",
-			sizes: "String!",
-			width: "Int!",
-			height: "Int!",
+			src: { type: "String!" },
+			srcSet: { type: "String!" },
+			srcWebp: { type: "String!" },
+			srcSetWebp: { type: "String!" },
+			sizes: { type: "String!" },
+			width: { type: "Int!" },
+			height: { type: "Int!" },
 		},
 	});
 };

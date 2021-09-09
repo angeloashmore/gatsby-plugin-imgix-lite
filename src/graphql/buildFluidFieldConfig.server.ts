@@ -27,15 +27,17 @@ export const buildFluidFieldConfig = <TSource, TContext>(
 				type: "Int",
 				defaultValue: DEFAULT_FLUID_MAX_WIDTH,
 			},
-			maxHeight: "Int",
-			srcSetBreakpoints: "[Int!]",
+			maxHeight: {
+				type: "Int",
+			},
+			srcSetBreakpoints: {
+				type: "[Int!]",
+			},
 			imgixParams: {
 				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
-				defaultValue: {},
 			},
 			placeholderImgixParams: {
 				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
-				defaultValue: {},
 			},
 		},
 		resolve: async (source, args) => {

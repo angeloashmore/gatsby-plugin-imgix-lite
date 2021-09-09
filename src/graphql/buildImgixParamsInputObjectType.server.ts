@@ -4,13 +4,13 @@ import { camelCase } from "camel-case";
 
 import { GraphQLTypeName } from "../constants";
 
-export type BuildImgixUrlParamsInputObjectTypeConfig = {
+export type BuildImgixParamsInputObjectTypeConfig = {
 	namespace: string;
 	schema: NodePluginSchema;
 };
 
-export const buildImgixUrlParamsInputObjectType = (
-	config: BuildImgixUrlParamsInputObjectTypeConfig,
+export const buildImgixParamsInputObjectType = (
+	config: BuildImgixParamsInputObjectTypeConfig,
 ): GatsbyGraphQLInputObjectType => {
 	const fields: GatsbyGraphQLInputObjectType["config"]["fields"] = {};
 

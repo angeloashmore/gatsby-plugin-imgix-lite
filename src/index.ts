@@ -7,4 +7,9 @@ export type { FluidArgs } from "./resolvers/resolveFluid";
 export { getGatsbyImageData } from "./getGatsbyImageData";
 export type { GetGatsbyImageDataConfig } from "./getGatsbyImageData";
 
-export type { ImageSource, ImageSourceDimensions, ImgixParams } from "./types";
+export type {
+	ImageSource,
+	ImageSourceDimensions,
+	ImgixParams,
+	ImgixClientConfig,
+} from "./types";

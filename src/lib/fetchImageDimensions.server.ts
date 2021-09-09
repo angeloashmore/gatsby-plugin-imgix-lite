@@ -22,7 +22,7 @@ export const fetchImageDimensions = async (
 		const url = new URL(config.url);
 		url.searchParams.set("fm", "json");
 
-		const res = await fetch(config.url);
+		const res = await fetch(url);
 		const json = (await res.json()) as ImgixJSONDimensionsLike;
 		const dimensions = {
 			width: json.PixelWidth,

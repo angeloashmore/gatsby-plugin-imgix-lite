@@ -54,6 +54,8 @@ export const buildGatsbyImageDataFieldConfig = <TSource, TContext>(
 						imgixClientConfig: config.imgixClientConfig,
 					},
 				);
+			} else {
+				return null;
 			}
 		},
 

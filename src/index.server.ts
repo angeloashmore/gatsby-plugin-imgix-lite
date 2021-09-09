@@ -22,8 +22,8 @@ export type {
 	UrlArgs,
 } from "./graphql/buildUrlFieldConfig.server";
 
-export { buildImgixUrlParamsInputObjectType } from "./graphql/buildImgixUrlParamsInputObjectType.server";
-export type { BuildImgixUrlParamsInputObjectTypeConfig } from "./graphql/buildImgixUrlParamsInputObjectType.server";
+export { buildImgixParamsInputObjectType } from "./graphql/buildImgixParamsInputObjectType.server";
+export type { BuildImgixParamsInputObjectTypeConfig } from "./graphql/buildImgixParamsInputObjectType.server";
 
 export { resolveGatsbyImageData } from "./resolvers/resolveGatsbyImageData.server";
 export type { GatsbyImageDataArgs } from "./resolvers/resolveGatsbyImageData.server";
@@ -32,6 +32,7 @@ export { generateImageSourceFromUrl } from "./lib/generateImageSourceFromUrl.ser
 
 export { GatsbyImageDataPlaceholderKind } from "./constants";
 
-export { SourceType } from "./plugin/constants";
-
 export type { GenerateImageSource, ImgixClientConfig } from "./types";
+
+export { SourceType } from "./plugin/constants";
+export type { PluginOptions, FieldConfig } from "./plugin/types";

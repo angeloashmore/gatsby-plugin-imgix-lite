@@ -10,6 +10,7 @@ import fetch from "node-fetch";
 
 import { fetchBase64Image } from "../lib/fetchBase64Image.server";
 import { generateGatsbyImageDataSource } from "../lib/generateGatsbyImageDataSource";
+import { paramCaseObject } from "../lib/paramCaseObject";
 
 import { name as packageName } from "../../package.json";
 
@@ -46,10 +47,12 @@ export const resolveGatsbyImageData = async (
 		sourceMetadata: {
 			width: image.width,
 			height: image.height,
-			format: "",
+			format: "auto",
 		},
 		filename: image.url,
-		generateImageSource: generateGatsbyImageDataSource,
+		generateImageSource: generateGatsbyImageDataSource({
+			imgixClientConfig: config.imgixClientConfig,
+		}),
 		options,
 	};
 
@@ -74,10 +77,14 @@ export const resolveGatsbyImageData = async (
 				...config.imgixClientConfig,
 			});
 
-			const palleteUrl = client.buildURL(filename, {
-				...DEFAULT_IMGIX_PARAMS,
-				...options.imgixParams,
-			});
+			const palleteUrl = client.buildURL(
+				filename,
+				paramCaseObject({
+					...DEFAULT_IMGIX_PARAMS,
+					...options.imgixParams,
+					palette: "json",
+				}),
+			);
 			const res = await fetch(palleteUrl);
 			const json = (await res.json()) as ImgixPalleteLike;
 

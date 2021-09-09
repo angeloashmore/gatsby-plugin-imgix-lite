@@ -1,6 +1,7 @@
 import type { FluidObject } from "gatsby-image";
 import ImgixClient, { SrcSetOptions } from "@imgix/js-core";
 
+import { paramCaseObject } from "../lib/paramCaseObject";
 import { parseArParam } from "../lib/parseArParam";
 
 import { ImageSource, ImgixClientConfig, ImgixParams } from "../types";
@@ -28,18 +29,6 @@ export const resolveFluid = (
 	options: FluidArgs = {},
 	config: ResolveFluidConfig = {},
 ): FluidObject => {
-	const resolvedOptions = {
-		maxWidth: options.maxWidth,
-		maxHeight: options.maxHeight,
-		srcSetBreakpoints:
-			options.srcSetBreakpoints ||
-			DEFAULT_FLUID_SRC_SET_BREAKPOINT_FACTORS.map(
-				(factor) => (options.maxWidth ?? DEFAULT_FLUID_MAX_WIDTH) * factor,
-			),
-		imgixParams: options.imgixParams || {},
-		placeholderImgixParams: options.placeholderImgixParams || {},
-	};
-
 	const url = new URL(source.url);
 	const filename = url.pathname;
 	const client = new ImgixClient({
@@ -65,27 +54,31 @@ export const resolveFluid = (
 		maxWidth = Math.round(options.maxHeight * aspectRatio);
 	}
 
-	const imgixParams: ImgixParams = {
+	const imgixParams: ImgixParams = paramCaseObject({
 		...DEFAULT_IMGIX_PARAMS,
-		...resolvedOptions.imgixParams,
+		...options.imgixParams,
 		w: maxWidth,
 		ar: `${aspectRatio}:1`,
-	};
+	});
 
 	const imgixParamsWebp = {
 		...imgixParams,
 		fm: "webp",
 	};
 
-	const placeholderImgixParams: ImgixParams = {
+	const placeholderImgixParams: ImgixParams = paramCaseObject({
 		...imgixParams,
 		...DEFAULT_PLACEHOLDER_IMGIX_PARAMS,
-		...resolvedOptions.placeholderImgixParams,
-	};
+		...options.placeholderImgixParams,
+	});
 
 	const srcSetOptions: SrcSetOptions = {
 		maxWidth,
-		widths: resolvedOptions.srcSetBreakpoints,
+		widths:
+			options.srcSetBreakpoints ||
+			DEFAULT_FLUID_SRC_SET_BREAKPOINT_FACTORS.map(
+				(factor) => (options.maxWidth ?? DEFAULT_FLUID_MAX_WIDTH) * factor,
+			),
 	};
 
 	return {

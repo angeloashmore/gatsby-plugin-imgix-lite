@@ -6,6 +6,7 @@ import * as lib from "../src";
 type FixedTestMacroConfig = {
 	url?: string;
 	options?: lib.FixedArgs;
+	imgixClientConfig?: lib.ImgixClientConfig;
 	expected: {
 		width: number;
 		height: number;
@@ -25,6 +26,7 @@ const macro = (t: ExecutionContext, config: FixedTestMacroConfig) => {
 
 	const client = new ImgixClient({
 		domain: url.hostname,
+		...config.imgixClientConfig,
 	});
 
 	const imgixParams = {
@@ -42,7 +44,9 @@ const macro = (t: ExecutionContext, config: FixedTestMacroConfig) => {
 		...config.expected.placeholderImgixParams,
 	};
 
-	const actual = lib.resolveFixed(imageSource, config.options);
+	const actual = lib.resolveFixed(imageSource, config.options, {
+		imgixClientConfig: config.imgixClientConfig,
+	});
 
 	t.deepEqual(actual, {
 		width: config.expected.width,
@@ -201,3 +205,22 @@ test(
 		},
 	},
 );
+
+test("uses provided Imgix client configuration", macro, {
+	imgixClientConfig: {
+		domain: "foo.com",
+	},
+	expected: {
+		width: 400,
+		height: 200,
+		imgixParams: {
+			w: 400,
+			h: 200,
+		},
+		placeholderImgixParams: {
+			w: 20,
+			blur: 15,
+			q: 20,
+		},
+	},
+});

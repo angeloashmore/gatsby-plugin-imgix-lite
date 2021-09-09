@@ -23,21 +23,23 @@ export const buildFluidObjectType = (
 		fields: {
 			base64: {
 				type: "String!",
-				resolve: async (source: FluidObject) => {
-					if (source.base64 != null) {
+				resolve: async (source: FluidObject | null) => {
+					if (source?.base64 != null) {
 						return await fetchBase64Image({
 							url: source.base64,
 							cache: config.cache,
 						});
+					} else {
+						return null;
 					}
 				},
 			},
-			src: "String!",
-			srcSet: "String!",
-			srcWebp: "String!",
-			srcSetWebp: "String!",
-			sizes: "String!",
-			aspectRatio: "Float!",
+			src: { type: "String!" },
+			srcSet: { type: "String!" },
+			srcWebp: { type: "String!" },
+			srcSetWebp: { type: "String!" },
+			sizes: { type: "String!" },
+			aspectRatio: { type: "Float!" },
 		},
 	});
 };

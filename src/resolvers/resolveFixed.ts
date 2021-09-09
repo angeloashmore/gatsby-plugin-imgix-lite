@@ -1,6 +1,7 @@
 import type { FixedObject } from "gatsby-image";
 import ImgixClient from "@imgix/js-core";
 
+import { paramCaseObject } from "../lib/paramCaseObject";
 import { parseArParam } from "../lib/parseArParam";
 
 import { ImageSource, ImgixParams, ImgixClientConfig } from "../types";
@@ -60,24 +61,24 @@ export const resolveFixed = (
 		}
 	}
 
-	const imgixParams: ImgixParams = {
+	const imgixParams: ImgixParams = paramCaseObject({
 		...DEFAULT_IMGIX_PARAMS,
 		...options.imgixParams,
 		w: width,
 		h: height,
-	};
+	});
 
 	const imgixParamsWebp: ImgixParams = {
 		...imgixParams,
 		fm: "webp",
 	};
 
-	const placeholderImgixParams: ImgixParams = {
+	const placeholderImgixParams: ImgixParams = paramCaseObject({
 		...DEFAULT_IMGIX_PARAMS,
 		...options.imgixParams,
 		...DEFAULT_PLACEHOLDER_IMGIX_PARAMS,
 		...options.placeholderImgixParams,
-	};
+	});
 
 	return {
 		width,

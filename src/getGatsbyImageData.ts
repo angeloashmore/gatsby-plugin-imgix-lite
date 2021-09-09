@@ -51,7 +51,10 @@ export const getGatsbyImageData = (
 		...config,
 		baseUrl: config.src,
 		urlBuilder: (args) => {
-			const gatsbyImageDataSource = generateGatsbyImageDataSource(
+			const gatsbyImageDataSource = generateGatsbyImageDataSource({
+				// The client cannot be configured in browser-only settings.
+				imgixClientConfig: undefined,
+			})(
 				args.baseUrl,
 				args.width,
 				args.height,

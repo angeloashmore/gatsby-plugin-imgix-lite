@@ -43,7 +43,7 @@ export enum GraphQLTypeName {
 	/**
 	 * Imgix parameters used in Imgix's URL API.
 	 */
-	ImgixParamsInputObject = "ImgixParamsInputObject",
+	ImgixParamsInputObject = "ImgixParams",
 
 	/**
 	 * `gatsby-plugin-image` gatsbyImageData objects.

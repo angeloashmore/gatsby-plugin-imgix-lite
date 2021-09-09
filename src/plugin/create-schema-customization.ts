@@ -6,7 +6,7 @@ import {
 	buildFixedObjectType,
 	buildFluidObjectType,
 	buildGatsbyImageDataPlaceholderEnum,
-	buildImgixUrlParamsInputObjectType,
+	buildImgixParamsInputObjectType,
 	generateImageSourceFromUrl,
 } from "../index.server";
 
@@ -49,7 +49,7 @@ export const createSchemaCustomization: NonNullable<
 			cache,
 			schema,
 		}),
-		buildImgixUrlParamsInputObjectType({
+		buildImgixParamsInputObjectType({
 			namespace: NAMESPACE,
 			schema,
 		}),
@@ -118,6 +118,8 @@ export const createSchemaCustomization: NonNullable<
 		});
 	});
 
-	createTypes(baseImgixTypes);
-	createTypes(userImgixImageFieldTypes);
+	// Calling `createTypes` one type at a time makes testing easier.
+	for (const type of [...baseImgixTypes, ...userImgixImageFieldTypes]) {
+		createTypes(type);
+	}
 };

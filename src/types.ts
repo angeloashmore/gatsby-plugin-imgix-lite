@@ -5,7 +5,7 @@ import type ImgixClient from "@imgix/js-core";
  *
  * @see Imgix Image URL API Reference: {@link https://docs.imgix.com/apis/rendering}
  */
-export type ImgixParams = Record<string, string | number>;
+export type ImgixParams = Record<string, string | number | boolean>;
 
 /**
  * The minimal data used when querying an image's pallete data using Imgix's API.

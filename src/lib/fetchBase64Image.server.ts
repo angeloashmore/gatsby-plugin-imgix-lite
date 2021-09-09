@@ -18,9 +18,7 @@ export const fetchBase64Image = async (
 		const res = await fetch(config.url);
 		const buffer = await res.buffer();
 		const contentType = res.headers.get("content-type");
-		const base64 = `data:image/${contentType};base64,${buffer.toString(
-			"base64",
-		)}`;
+		const base64 = `data:${contentType};base64,${buffer.toString("base64")}`;
 
 		config.cache.set(cacheKey, base64);
 

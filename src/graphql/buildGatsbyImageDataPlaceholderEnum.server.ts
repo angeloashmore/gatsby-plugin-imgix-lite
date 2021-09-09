@@ -11,7 +11,7 @@ export const buildGatsbyImageDataPlaceholderEnum = (
 	config: BuildGatsbyImageDataPlaceholderEnumConfig,
 ): GatsbyGraphQLEnumType => {
 	return config.schema.buildEnumType({
-		name: config.namespace + GraphQLTypeName.FixedObject,
+		name: config.namespace + GraphQLTypeName.GatsbyImageDataPlaceholderEnum,
 		values: {
 			BLURRED: {
 				value: GatsbyImageDataPlaceholderKind.Blurred,

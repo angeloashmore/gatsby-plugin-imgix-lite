@@ -24,7 +24,7 @@ export type PluginOptions = GatsbyPluginOptions & {
  *
  * @typeParam TSource - Source data from which image metadata can be derived.
  */
-type FieldConfig<TSource = unknown> = {
+export type FieldConfig<TSource = unknown> = {
 	/**
 	 * The root GraphQL node type from which image metadata can be derived.
 	 */

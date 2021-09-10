@@ -3,7 +3,7 @@ import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-co
 import { getGatsbyImageResolver } from "gatsby-plugin-image/graphql-utils";
 
 import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
-import { GraphQLTypeName } from "../constants";
+import { GraphQLTypeName, GatsbyImageDataPlaceholderKind } from "../constants";
 import {
 	GatsbyImageDataArgs,
 	resolveGatsbyImageData,
@@ -63,6 +63,7 @@ export const buildGatsbyImageDataFieldConfig = <TSource, TContext>(
 		{
 			placeholder: {
 				type: config.namespace + GraphQLTypeName.GatsbyImageDataPlaceholderEnum,
+				defaultValue: GatsbyImageDataPlaceholderKind.DominantColor,
 			},
 			imgixParams: {
 				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,

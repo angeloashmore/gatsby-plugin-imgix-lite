@@ -36,6 +36,7 @@
 		"src",
 		"gatsby-node.js",
 		"node.js"
+		"fragments.js",
 	],
 	"scripts": {
 		"build": "siroc build",

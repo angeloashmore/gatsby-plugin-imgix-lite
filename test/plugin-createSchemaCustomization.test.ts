@@ -1,74 +1,21 @@
-import test, { ExecutionContext } from "ava";
-import * as sinon from "sinon";
-import * as msw from "msw";
+import test from "ava";
 import * as mswNode from "msw/node";
-import * as crypto from "crypto";
 import * as gatsby from "gatsby";
 import { GraphQLResolveInfo } from "gatsby/graphql";
 
 import { buildGatsbyContext } from "./__testutils__/buildGatsbyContext";
-import { asStub } from "./__testutils__/asStub";
+import { buildPluginOptions } from "./__testutils__/buildPluginOptions";
+import { getCreatedType } from "./__testutils__/getCreatedType";
+import { instantiateImageURL } from "./__testutils__/instantiateImageURL";
 
-import * as libServer from "../src/index.server";
 import * as plugin from "../src/plugin/gatsby-node";
+import * as lib from "../src";
 
 const server = mswNode.setupServer();
 test.before(() => server.listen({ onUnhandledRequest: "error" }));
 test.after(() => server.close());
 
 const noop = () => void 0;
-const buildPluginOptions = (): libServer.PluginOptions => {
-	return {
-		defaultImgixParams: {},
-		fields: [],
-		disableIxlibParam: false,
-		sourceType: libServer.SourceType.AmazonS3,
-		plugins: [],
-	};
-};
-const instantiateImageURL = (t: ExecutionContext, index = 0): string => {
-	const basename = crypto.createHash("md5").update(t.title).digest("hex");
-	const url = `https://example.com/${index}-${basename}.png`;
-
-	server.use(
-		msw.rest.get(url, (req, res, ctx) => {
-			if (req.url.searchParams.get("fm") === "json") {
-				return res.once(ctx.json({ PixelWidth: 400, PixelHeight: 200 }));
-			}
-		}),
-	);
-
-	return url;
-};
-
-type GetCreatedTypeConfig = {
-	createTypes: gatsby.Actions["createTypes"];
-	name: string;
-};
-
-const getCreatedType = <T extends gatsby.GatsbyGraphQLType>(
-	t: ExecutionContext,
-	config: GetCreatedTypeConfig,
-): T => {
-	const call = asStub(config.createTypes)
-		.getCalls()
-		.map((call) => call.args[0])
-		.find((arg): arg is T => {
-			if (typeof arg === "object" && "config" in arg) {
-				return arg.config.name === config.name;
-			} else {
-				return false;
-			}
-		});
-
-	if (call) {
-		return call;
-	} else {
-		t.fail(`A type with name "${config.name}" was not created.`);
-
-		throw new Error();
-	}
-};
 
 test("creates base GraphQL types with namespace", (t) => {
 	const gatsbyContext =
@@ -77,96 +24,209 @@ test("creates base GraphQL types with namespace", (t) => {
 
 	plugin.createSchemaCustomization(gatsbyContext, pluginOptions, noop);
 
-	t.true(
-		asStub(gatsbyContext.actions.createTypes).calledWith(
-			sinon.match({
-				kind: "OBJECT",
-				config: sinon.match({ name: "ImgixFixed" }),
-			}),
-		),
+	t.like(
+		getCreatedType(t, {
+			name: "Query",
+			createTypes: gatsbyContext.actions.createTypes,
+		}),
+		{
+			kind: "OBJECT",
+			config: {
+				fields: {
+					imgixImage: {
+						type: "ImgixImage",
+						args: {
+							url: { type: "String" },
+							width: { type: "Int" },
+							height: { type: "Int" },
+						},
+						resolve: async () => void 0,
+					},
+				},
+			},
+		},
+		"creates ImgixImage object type",
+	);
+
+	t.like(
+		getCreatedType(t, {
+			name: "ImgixImage",
+			createTypes: gatsbyContext.actions.createTypes,
+		}),
+		{
+			kind: "OBJECT",
+			config: {
+				fields: {
+					url: { type: "String" },
+					fixed: { type: "ImgixFixed" },
+					fluid: { type: "ImgixFluid" },
+					gatsbyImageData: { type: "JSON" },
+				},
+			},
+		},
+		"creates ImgixImage object type",
+	);
+
+	t.like(
+		getCreatedType(t, {
+			name: "ImgixFixed",
+			createTypes: gatsbyContext.actions.createTypes,
+		}),
+		{ kind: "OBJECT" },
 		"creates fixed object type",
 	);
 
-	t.true(
-		asStub(gatsbyContext.actions.createTypes).calledWith(
-			sinon.match({
-				kind: "OBJECT",
-				config: sinon.match({ name: "ImgixFluid" }),
-			}),
-		),
-		"creates fixed object type",
+	t.like(
+		getCreatedType(t, {
+			name: "ImgixFluid",
+			createTypes: gatsbyContext.actions.createTypes,
+		}),
+		{ kind: "OBJECT" },
+		"creates fluid object type",
 	);
 
-	t.true(
-		asStub(gatsbyContext.actions.createTypes).calledWith(
-			sinon.match({
-				kind: "INPUT_OBJECT",
-				config: sinon.match({ name: "ImgixImgixParams" }),
-			}),
-		),
+	t.like(
+		getCreatedType(t, {
+			name: "ImgixImgixParams",
+			createTypes: gatsbyContext.actions.createTypes,
+		}),
+		{ kind: "INPUT_OBJECT" },
 		"creates Imgix params input object type",
 	);
 
-	t.true(
-		asStub(gatsbyContext.actions.createTypes).calledWith(
-			sinon.match({
-				kind: "ENUM",
-				config: sinon.match({ name: "ImgixGatsbyImageDataPlaceholder" }),
-			}),
-		),
-		"creates gatsbyImageData placeholder enum type",
+	t.like(
+		getCreatedType(t, {
+			name: "ImgixGatsbyImageDataPlaceholder",
+			createTypes: gatsbyContext.actions.createTypes,
+		}),
+		{ kind: "ENUM" },
+		"creates Imgix params input object type",
 	);
 });
 
-// TODO: test getURLs, generateImageSource, generateImageSources
+type ImgixImageArgs = {
+	url: string | null;
+	width: number | null;
+	height: number | null;
+};
 
-test("creates GraphQL field for config with getURL", async (t) => {
+test("imgixImage Query field resolves image source", async (t) => {
 	const gatsbyContext =
 		buildGatsbyContext() as gatsby.CreateSchemaCustomizationArgs;
 	const pluginOptions = buildPluginOptions();
 
-	const url = instantiateImageURL(t);
-	const userFieldConfig: libServer.FieldConfig = {
-		nodeType: "Foo",
-		fieldName: "bar",
-		getURL: () => url,
+	const imageSource = {
+		url: instantiateImageURL(t, { server }),
+		width: 400,
+		height: 200,
 	};
-	pluginOptions.fields = [userFieldConfig];
 
 	plugin.createSchemaCustomization(gatsbyContext, pluginOptions, noop);
 
 	const type = getCreatedType<gatsby.GatsbyGraphQLObjectType>(t, {
-		name: userFieldConfig.nodeType,
+		name: "Query",
 		createTypes: gatsbyContext.actions.createTypes,
 	});
 
-	t.like(type, {
-		kind: "OBJECT",
-		config: {
-			name: userFieldConfig.nodeType,
-			fields: {
-				bar: {
-					type: "ImgixImage",
-				},
-			},
+	const fieldConfig = type.config.fields?.imgixImage;
+	if (!(typeof fieldConfig === "object" && "resolve" in fieldConfig)) {
+		t.fail("Field resolver is not present");
+		throw new Error();
+	}
+
+	const resolveWithArgs = async (
+		args: ImgixImageArgs,
+	): Promise<lib.ImageSource | null> => {
+		return await fieldConfig.resolve?.({}, args, {}, {} as GraphQLResolveInfo);
+	};
+
+	t.deepEqual(
+		await resolveWithArgs({
+			url: null,
+			width: null,
+			height: null,
+		}),
+		null,
+		"resolves to null if url is not given",
+	);
+
+	t.deepEqual(
+		await resolveWithArgs({
+			url: imageSource.url,
+			width: null,
+			height: null,
+		}),
+		imageSource,
+		"fetches images dimensions if only url is provided",
+	);
+
+	t.deepEqual(
+		await resolveWithArgs({
+			url: imageSource.url,
+			width: null,
+			height: null,
+		}),
+		imageSource,
+		"fetches image dimensions if only width is provided",
+	);
+
+	t.deepEqual(
+		await resolveWithArgs({
+			url: imageSource.url,
+			width: null,
+			height: 100,
+		}),
+		imageSource,
+		"fetches image dimensions if only height is provided",
+	);
+
+	t.deepEqual(
+		await resolveWithArgs({
+			url: imageSource.url,
+			width: 200,
+			height: 100,
+		}),
+		{
+			url: imageSource.url,
+			width: 200,
+			height: 100,
 		},
+		"uses provided width and height if both are provided",
+	);
+});
+
+test("uses imgix client config if provided", async (t) => {
+	const gatsbyContext =
+		buildGatsbyContext() as gatsby.CreateSchemaCustomizationArgs;
+	const pluginOptions = buildPluginOptions();
+	pluginOptions.domain = "foo.com";
+	pluginOptions.secureURLToken = "token";
+
+	const imageSource = {
+		url: instantiateImageURL(t, { server }),
+		width: 400,
+		height: 200,
+	};
+
+	plugin.createSchemaCustomization(gatsbyContext, pluginOptions, noop);
+
+	const type = getCreatedType<gatsby.GatsbyGraphQLObjectType>(t, {
+		name: "ImgixImage",
+		createTypes: gatsbyContext.actions.createTypes,
 	});
 
-	const fieldConfig = type.config.fields?.[userFieldConfig.fieldName];
-	if (typeof fieldConfig === "object" && "resolve" in fieldConfig) {
-		const actual = await fieldConfig.resolve?.(
-			{},
-			{},
-			{},
-			{} as GraphQLResolveInfo,
-		);
-
-		t.deepEqual(actual, {
-			url,
-			width: 400,
-			height: 200,
-		});
-	} else {
+	const urlFieldConfig = type.config.fields?.url;
+	if (!(typeof urlFieldConfig === "object" && "resolve" in urlFieldConfig)) {
 		t.fail("Field resolver is not present");
+		throw new Error();
 	}
+
+	const actual = await urlFieldConfig.resolve?.(
+		imageSource,
+		{},
+		{},
+		{} as GraphQLResolveInfo,
+	);
+
+	t.regex(actual, /^https:\/\/foo.com\//);
 });

@@ -23,7 +23,7 @@ test("returns a namespaced GraphQL field config", (t) => {
 	});
 
 	t.like(actual, {
-		type: "JSON!",
+		type: "JSON",
 		args: {
 			placeholder: { type: "NamespaceGatsbyImageDataPlaceholder" },
 			imgixParams: { type: "NamespaceImgixParams" },

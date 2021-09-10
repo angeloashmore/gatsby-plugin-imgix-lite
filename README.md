@@ -19,7 +19,7 @@ npm install gatsby-plugin-imgix-lite
 
 ## Documentation
 
-To discover what's new on this package check out [the changelog][changelog]. Full documentation has yet to be written.
+In most cases, this is a drop-in replacement for `@imgix/gatsby`. Although it is usable, please treat this package as a proof-of-concept.
 
 ## Contributing
 

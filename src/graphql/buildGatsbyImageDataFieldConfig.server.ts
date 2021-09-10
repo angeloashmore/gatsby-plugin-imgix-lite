@@ -26,7 +26,7 @@ export const buildGatsbyImageDataFieldConfig = <TSource, TContext>(
 	TContext,
 	GatsbyImageDataArgs
 > => {
-	return getGatsbyImageResolver(
+	const fieldConfig = getGatsbyImageResolver(
 		async (source, args) => {
 			const imageSource = await config.generateImageSource(source);
 
@@ -76,4 +76,11 @@ export const buildGatsbyImageDataFieldConfig = <TSource, TContext>(
 		TContext,
 		GatsbyImageDataArgs
 	>;
+
+	// `getGatsbyImageResolver` returns a "JSON!" type. This is undesired when
+	// the source does not contain a value (i.e. null). Here, we are manually
+	// overriding the type to be nullable.
+	fieldConfig.type = "JSON";
+
+	return fieldConfig;
 };

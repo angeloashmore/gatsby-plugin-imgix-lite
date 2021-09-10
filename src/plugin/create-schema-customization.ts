@@ -106,7 +106,7 @@ export const createSchemaCustomization: NonNullable<
 			fields: {
 				[fieldConfig.fieldName]: {
 					type: isList
-						? `[${imgixImageObjectType.config.name}]`
+						? `[${imgixImageObjectType.config.name}]!`
 						: imgixImageObjectType.config.name,
 					resolve: async (source: unknown) => {
 						return await sourceGenerator(source);

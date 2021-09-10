@@ -30,9 +30,9 @@ export const buildQueryObjectType = (
 			imgixImage: {
 				type: config.namespace + GraphQLTypeName.Image,
 				args: {
-					url: "String",
-					width: "Int",
-					height: "Int",
+					url: { type: "String" },
+					width: { type: "Int" },
+					height: { type: "Int" },
 				},
 				resolve: async (
 					_source: void,
@@ -40,8 +40,8 @@ export const buildQueryObjectType = (
 				): Promise<ImageSource | null> => {
 					const url = args.url;
 
-					if (url !== null) {
-						if (args.width !== null && args.height !== null) {
+					if (url != null) {
+						if (args.width != null && args.height != null) {
 							return {
 								url,
 								width: args.width,

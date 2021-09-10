@@ -13,7 +13,6 @@ export type UrlArgs = {
 export type BuildUrlFieldConfigConfig<TSource> = {
 	namespace: string;
 	generateImageSource: GenerateImageSource<TSource>;
-	client?: ImgixClient;
 	defaultImgixParams?: ImgixParams;
 	imgixClientConfig?: Partial<ImgixClientConfig>;
 };

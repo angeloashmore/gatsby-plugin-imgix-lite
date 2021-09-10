@@ -5,9 +5,9 @@ import * as sinon from "sinon";
 import { GraphQLResolveInfo } from "gatsby/graphql";
 
 import { asStub } from "./__testutils__/asStub";
+import { buildGatsbyContext } from "./__testutils__/buildGatsbyContext";
 
 import * as libServer from "../src/index.server";
-import { buildGatsbyContext } from "./__testutils__/buildGatsbyContext";
 
 const server = mswNode.setupServer();
 test.before(() => server.listen({ onUnhandledRequest: "error" }));

@@ -8,8 +8,8 @@ import { buildPluginOptions } from "./__testutils__/buildPluginOptions";
 import { getCreatedType } from "./__testutils__/getCreatedType";
 import { instantiateImageURL } from "./__testutils__/instantiateImageURL";
 
-import * as plugin from "../src/plugin/gatsby-node";
 import * as lib from "../src";
+import * as plugin from "../src/plugin/gatsby-node";
 
 const server = mswNode.setupServer();
 test.before(() => server.listen({ onUnhandledRequest: "error" }));

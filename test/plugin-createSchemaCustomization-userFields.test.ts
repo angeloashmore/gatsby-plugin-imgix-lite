@@ -9,7 +9,6 @@ import { buildPluginOptions } from "./__testutils__/buildPluginOptions";
 import { getCreatedType } from "./__testutils__/getCreatedType";
 import { instantiateImageURL } from "./__testutils__/instantiateImageURL";
 
-import * as lib from "../src";
 import * as libServer from "../src/index.server";
 import * as plugin from "../src/plugin/gatsby-node";
 
@@ -129,12 +128,12 @@ test("creates GraphQL fields for config with generateImageSource", async (t) => 
 		buildGatsbyContext() as gatsby.CreateSchemaCustomizationArgs;
 	const pluginOptions = buildPluginOptions();
 
-	const imageSource: lib.ImageSource = {
+	const imageSource: libServer.ImageSource = {
 		url: buildImageUrl(t),
 		width: 400,
 		height: 200,
 	};
-	const userFieldConfig: libServer.FieldConfig<lib.ImageSource | null> = {
+	const userFieldConfig: libServer.FieldConfig<libServer.ImageSource | null> = {
 		nodeType: "Foo",
 		fieldName: "bar",
 		generateImageSource: (source) => source,

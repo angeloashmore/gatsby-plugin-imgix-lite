@@ -11,6 +11,8 @@ export type PluginOptions = GatsbyPluginOptions & {
 } & (
 		| {
 				sourceType?: Exclude<SourceType, SourceType.WebProxy>;
+				domain?: string;
+				secureURLToken?: string;
 		  }
 		| {
 				sourceType: SourceType.WebProxy;

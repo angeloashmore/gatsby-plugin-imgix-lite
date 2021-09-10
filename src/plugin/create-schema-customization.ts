@@ -10,7 +10,7 @@ import {
 	generateImageSourceFromUrl,
 } from "../index.server";
 
-import { NAMESPACE, SourceType } from "./constants";
+import { NAMESPACE } from "./constants";
 import { GenerateImageSources, PluginOptions } from "./types";
 import { buildImgixImageObjectType } from "./buildImgixImageObjectType";
 import { buildQueryObjectType } from "./buildQueryObjectType";
@@ -22,12 +22,10 @@ export const createSchemaCustomization: NonNullable<
 	const { createTypes } = actions;
 
 	const imgixClientConfig: Partial<ImgixClientConfig> = {
+		domain: options.domain,
+		secureURLToken: options.secureURLToken,
 		includeLibraryParam: !options.disableIxlibParam,
 	};
-	if (options.sourceType === SourceType.WebProxy) {
-		imgixClientConfig.domain = options.domain;
-		imgixClientConfig.secureURLToken = options.secureURLToken;
-	}
 
 	const imgixImageObjectType = buildImgixImageObjectType({
 		namespace: NAMESPACE,

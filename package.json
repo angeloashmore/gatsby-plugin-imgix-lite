@@ -15,6 +15,7 @@
 	},
 	"license": "MIT",
 	"author": "Angelo Ashmore",
+	"sideEffects": false,
 	"exports": {
 		".": {
 			"require": "./dist/index.cjs",

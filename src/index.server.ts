@@ -32,7 +32,11 @@ export { generateImageSourceFromUrl } from "./lib/generateImageSourceFromUrl.ser
 
 export { GatsbyImageDataPlaceholderKind } from "./constants";
 
-export type { GenerateImageSource, ImgixClientConfig } from "./types";
+export type {
+	GenerateImageSource,
+	ImgixClientConfig,
+	ImgixParams,
+} from "./types";
 
 export { SourceType } from "./plugin/constants";
 export type { PluginOptions, FieldConfig } from "./plugin/types";

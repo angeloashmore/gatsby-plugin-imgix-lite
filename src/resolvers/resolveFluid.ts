@@ -30,7 +30,7 @@ export const resolveFluid = (
 	config: ResolveFluidConfig = {},
 ): FluidObject => {
 	const url = new URL(source.url);
-	const filename = url.pathname;
+	const filename = decodeURIComponent(url.pathname);
 	const client = new ImgixClient({
 		domain: url.hostname,
 		...config.imgixClientConfig,

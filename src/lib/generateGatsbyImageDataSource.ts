@@ -23,7 +23,7 @@ export const generateGatsbyImageDataSource = (
 		options?: GatsbyImageDataArgs,
 	) => {
 		const url = new URL(sourceUrl);
-		const filename = url.pathname;
+		const filename = decodeURIComponent(url.pathname);
 		const client = new ImgixClient({
 			domain: url.hostname,
 			...config.imgixClientConfig,

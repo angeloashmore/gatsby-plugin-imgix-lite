@@ -44,7 +44,7 @@ export const buildUrlFieldConfig = <TSource, TContext>(
 				});
 
 				return client.buildURL(
-					url.pathname,
+					decodeURIComponent(url.pathname),
 					paramCaseObject({
 						...DEFAULT_IMGIX_PARAMS,
 						...config.defaultImgixParams,

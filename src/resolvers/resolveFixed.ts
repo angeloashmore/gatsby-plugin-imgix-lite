@@ -28,7 +28,7 @@ export const resolveFixed = (
 	config: ResolveFluidConfig = {},
 ): FixedObject => {
 	const url = new URL(source.url);
-	const filename = url.pathname;
+	const filename = decodeURIComponent(url.pathname);
 	const client = new ImgixClient({
 		domain: url.hostname,
 		...config.imgixClientConfig,

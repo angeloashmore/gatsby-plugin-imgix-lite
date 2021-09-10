@@ -1,6 +1,6 @@
 import type { GatsbyCache } from "gatsby";
 import type { ObjectTypeComposerFieldConfigAsObjectDefinition } from "graphql-compose";
-import { getGatsbyImageResolver } from "gatsby-plugin-image/graphql-utils";
+import { getGatsbyImageFieldConfig } from "gatsby-plugin-image/graphql-utils";
 
 import { GenerateImageSource, ImgixClientConfig, ImgixParams } from "../types";
 import { GraphQLTypeName, GatsbyImageDataPlaceholderKind } from "../constants";
@@ -26,8 +26,8 @@ export const buildGatsbyImageDataFieldConfig = <TSource, TContext>(
 	TContext,
 	GatsbyImageDataArgs
 > => {
-	const fieldConfig = getGatsbyImageResolver(
-		async (source, args) => {
+	const fieldConfig = getGatsbyImageFieldConfig<TSource, TContext>(
+		async (source, args: GatsbyImageDataArgs) => {
 			const imageSource = await config.generateImageSource(source);
 
 			if (imageSource !== null) {
@@ -58,27 +58,30 @@ export const buildGatsbyImageDataFieldConfig = <TSource, TContext>(
 				return null;
 			}
 		},
-
-		// IMPORTANT: These types must be kept in sync with `GatsbyImageDataArgs`.
-		{
-			placeholder: {
-				type: config.namespace + GraphQLTypeName.GatsbyImageDataPlaceholderEnum,
-				defaultValue: GatsbyImageDataPlaceholderKind.DominantColor,
-			},
-			imgixParams: {
-				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
-			},
-			placeholderImgixParams: {
-				type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
-			},
-		},
 	) as ObjectTypeComposerFieldConfigAsObjectDefinition<
 		TSource,
 		TContext,
 		GatsbyImageDataArgs
 	>;
 
-	// `getGatsbyImageResolver` returns a "JSON!" type. This is undesired when
+	// We need to set this separately since the above type case raises the field
+	// config to a graphql-compose definition. This allows us to reference types
+	// by name, which is needed for the arguments.
+	fieldConfig.args = {
+		...fieldConfig.args,
+		placeholder: {
+			type: config.namespace + GraphQLTypeName.GatsbyImageDataPlaceholderEnum,
+			defaultValue: GatsbyImageDataPlaceholderKind.DominantColor,
+		},
+		imgixParams: {
+			type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
+		},
+		placeholderImgixParams: {
+			type: config.namespace + GraphQLTypeName.ImgixParamsInputObject,
+		},
+	};
+
+	// `getGatsbyImageFieldConfig` returns a "JSON!" type. This is undesired when
 	// the source does not contain a value (i.e. null). Here, we are manually
 	// overriding the type to be nullable.
 	fieldConfig.type = "JSON";

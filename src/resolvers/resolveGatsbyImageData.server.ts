@@ -71,7 +71,7 @@ export const resolveGatsbyImageData = async (
 			imageDataArgs.backgroundColor = cacheValue;
 		} else {
 			const url = new URL(image.url);
-			const filename = url.pathname;
+			const filename = decodeURIComponent(url.pathname);
 			const client = new ImgixClient({
 				domain: url.hostname,
 				...config.imgixClientConfig,

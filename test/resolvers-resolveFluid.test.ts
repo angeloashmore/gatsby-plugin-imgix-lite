@@ -2,10 +2,11 @@ import test, { ExecutionContext } from "ava";
 import ImgixClient from "@imgix/js-core";
 
 import * as lib from "../src";
+import { resolveFluid, FluidArgs } from "../src/resolvers/resolveFluid";
 
 type FluidTestMacroConfig = {
 	url?: string;
-	options?: lib.FluidArgs;
+	options?: FluidArgs;
 	expected: {
 		aspectRatio: number;
 		imgixParams: lib.ImgixParams;
@@ -41,7 +42,7 @@ const macro = (t: ExecutionContext, config: FluidTestMacroConfig) => {
 		...config.expected.placeholderImgixParams,
 	};
 
-	const actual = lib.resolveFluid(imageSource, config.options);
+	const actual = resolveFluid(imageSource, config.options);
 
 	t.deepEqual(actual, {
 		aspectRatio: config.expected.aspectRatio,

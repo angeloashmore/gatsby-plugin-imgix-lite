@@ -27,6 +27,7 @@ export const DEFAULT_IMGIX_PARAMS: ImgixParams = {
  */
 export const DEFAULT_PLACEHOLDER_IMGIX_PARAMS: ImgixParams = {
 	w: 20,
+	h: undefined,
 	blur: 15,
 	q: 20,
 };

@@ -2,10 +2,11 @@ import test, { ExecutionContext } from "ava";
 import ImgixClient from "@imgix/js-core";
 
 import * as lib from "../src";
+import { resolveFixed, FixedArgs } from "../src/resolvers/resolveFixed";
 
 type FixedTestMacroConfig = {
 	url?: string;
-	options?: lib.FixedArgs;
+	options?: FixedArgs;
 	imgixClientConfig?: lib.ImgixClientConfig;
 	expected: {
 		width: number;
@@ -44,7 +45,7 @@ const macro = (t: ExecutionContext, config: FixedTestMacroConfig) => {
 		...config.expected.placeholderImgixParams,
 	};
 
-	const actual = lib.resolveFixed(imageSource, config.options, {
+	const actual = resolveFixed(imageSource, config.options, {
 		imgixClientConfig: config.imgixClientConfig,
 	});
 

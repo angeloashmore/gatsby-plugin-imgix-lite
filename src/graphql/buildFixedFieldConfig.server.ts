@@ -21,6 +21,8 @@ export const buildFixedFieldConfig = <TSource, TContext>(
 > => {
 	return {
 		type: config.namespace + GraphQLTypeName.FixedObject,
+		deprecationReason:
+			"`gatsby-image` is replaced by `gatsby-plugin-image`. [See the migration guide](https://www.gatsbyjs.com/docs/reference/release-notes/image-migration-guide/)",
 		// IMPORTANT: These types must be kept in sync with `FixedArgs`.
 		args: {
 			width: {

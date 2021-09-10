@@ -1,11 +1,14 @@
-export { resolveFixed } from "./resolvers/resolveFixed";
-export type { FixedArgs } from "./resolvers/resolveFixed";
+export { buildFixedImageData } from "./buildFixedImageData";
+export type { BuildFixedObjectTypeConfig } from "./buildFixedImageData";
 
-export { resolveFluid } from "./resolvers/resolveFluid";
-export type { FluidArgs } from "./resolvers/resolveFluid";
+export { buildFluidImageData } from "./buildFluidImageData";
+export type { BuildFluidObjectTypeConfig } from "./buildFluidImageData";
 
 export { getGatsbyImageData } from "./getGatsbyImageData";
 export type { GetGatsbyImageDataConfig } from "./getGatsbyImageData";
+
+export { ImgixGatsbyImage } from "./ImgixGatsbyImage";
+export type { ImgixGatsbyImageProps } from "./ImgixGatsbyImage";
 
 export type {
 	ImageSource,

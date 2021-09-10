@@ -23,6 +23,8 @@ test("returns a namespaced GraphQL field config", (t) => {
 		},
 		resolve: async () => void 0,
 	});
+
+	t.regex(actual.deprecationReason || "", /gatsby-plugin-image/);
 });
 
 test("resolves fluid object using generateImageSource", async (t) => {

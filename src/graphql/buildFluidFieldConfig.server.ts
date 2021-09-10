@@ -21,6 +21,8 @@ export const buildFluidFieldConfig = <TSource, TContext>(
 > => {
 	return {
 		type: config.namespace + GraphQLTypeName.FluidObject,
+		deprecationReason:
+			"`gatsby-image` is replaced by `gatsby-plugin-image`. [See the migration guide](https://www.gatsbyjs.com/docs/reference/release-notes/image-migration-guide/)",
 		// IMPORTANT: These types must be kept in sync with `FluidArgs`.
 		args: {
 			maxWidth: {

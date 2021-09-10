@@ -22,6 +22,8 @@ test("returns a namespaced GraphQL field config", (t) => {
 		},
 		resolve: async () => void 0,
 	});
+
+	t.regex(actual.deprecationReason || "", /gatsby-plugin-image/);
 });
 
 test("resolves fixed object using generateImageSource", async (t) => {

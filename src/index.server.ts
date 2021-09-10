@@ -1,3 +1,10 @@
+// Re-export all non-Node exports for convenience
+export * from "./index";
+
+/**
+ * GraphQL type builders
+ */
+
 export { buildFixedFieldConfig } from "./graphql/buildFixedFieldConfig.server";
 export type { BuildFixedFieldConfigConfig } from "./graphql/buildFixedFieldConfig.server";
 
@@ -25,18 +32,29 @@ export type {
 export { buildImgixParamsInputObjectType } from "./graphql/buildImgixParamsInputObjectType.server";
 export type { BuildImgixParamsInputObjectTypeConfig } from "./graphql/buildImgixParamsInputObjectType.server";
 
+/**
+ * Server image object builders
+ */
+
 export { resolveGatsbyImageData } from "./resolvers/resolveGatsbyImageData.server";
 export type { GatsbyImageDataArgs } from "./resolvers/resolveGatsbyImageData.server";
 
 export { generateImageSourceFromUrl } from "./lib/generateImageSourceFromUrl.server";
 
+/**
+ * Constants
+ */
+
 export { GatsbyImageDataPlaceholderKind } from "./constants";
+export { SourceType } from "./plugin/constants";
+
+/**
+ * Types
+ */
 
 export type {
 	GenerateImageSource,
 	ImgixClientConfig,
 	ImgixParams,
 } from "./types";
-
-export { SourceType } from "./plugin/constants";
 export type { PluginOptions, FieldConfig } from "./plugin/types";

@@ -3,7 +3,9 @@ import ImgixClient from "@imgix/js-core";
 
 import { DEFAULT_IMGIX_PARAMS } from "../constants";
 import type { ImgixClientConfig, ImgixParams } from "../types";
-import type { GatsbyImageDataArgs } from "../resolvers/resolveGatsbyImageData";
+
+// NOTE: This *server* file can only be imported for types!
+import type { GatsbyImageDataArgs } from "../resolvers/resolveGatsbyImageData.server";
 
 import { paramCaseObject } from "./paramCaseObject";
 

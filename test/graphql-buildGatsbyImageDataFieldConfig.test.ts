@@ -201,10 +201,6 @@ test("builds blurred placeholder if requested", async (t) => {
 		msw.rest.get(url, (req, res, ctx) => {
 			if (req.url.searchParams.get("w") === "20") {
 				return res.once(ctx.set("content-type", contentType), ctx.body(buffer));
-			} else {
-				t.fail(
-					"The correct low resolution placeholder image URL was not requested",
-				);
 			}
 		}),
 	);
@@ -256,8 +252,6 @@ test("builds dominant color placeholder if requested", async (t) => {
 				return res.once(
 					ctx.json({ dominant_colors: { vibrant: { hex: dominantColor } } }),
 				);
-			} else {
-				t.fail("The correct dominant color placeholder URL was not requested");
 			}
 		}),
 	);
@@ -282,4 +276,29 @@ test("builds dominant color placeholder if requested", async (t) => {
 			},
 		});
 	});
+});
+
+test("resolves the requested layout", async (t) => {
+	const gatsbyContext = buildGatsbyContext();
+	const url = "https://example.com/dominantColorTest.png";
+	const fieldConfig = libServer.buildGatsbyImageDataFieldConfig({
+		namespace: "Namespace",
+		pluginName: "plugin-name",
+		cache: gatsbyContext.cache,
+		generateImageSource: () => ({
+			url,
+			width: 400,
+			height: 200,
+		}),
+	});
+
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	const actual = await fieldConfig.resolve!(
+		{},
+		{ layout: libServer.GatsbyImageDataLayoutKind.FullWidth },
+		{},
+		{} as GraphQLResolveInfo,
+	);
+
+	t.is(actual.layout, "fullWidth");
 });

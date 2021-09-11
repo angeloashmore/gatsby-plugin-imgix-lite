@@ -45,7 +45,10 @@ export { generateImageSourceFromUrl } from "./lib/generateImageSourceFromUrl.ser
  * Constants
  */
 
-export { GatsbyImageDataPlaceholderKind } from "./constants";
+export {
+	GatsbyImageDataPlaceholderKind,
+	GatsbyImageDataLayoutKind,
+} from "./constants";
 export { SourceType } from "./plugin/constants";
 
 /**

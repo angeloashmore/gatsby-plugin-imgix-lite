@@ -22,6 +22,7 @@ import {
 } from "../types";
 import {
 	DEFAULT_IMGIX_PARAMS,
+	GatsbyImageDataLayoutKind,
 	GatsbyImageDataPlaceholderKind,
 } from "../constants";
 
@@ -29,6 +30,7 @@ export type GatsbyImageDataArgs = {
 	placeholder?: GatsbyImageDataPlaceholderKind;
 	imgixParams?: ImgixParams;
 	placeholderImgixParams?: ImgixParams;
+	layout?: GatsbyImageDataLayoutKind;
 };
 
 type ResolveGatsbyImageDataConfig = {
@@ -54,6 +56,7 @@ export const resolveGatsbyImageData = async (
 			imgixClientConfig: config.imgixClientConfig,
 		}),
 		options,
+		layout: options.layout,
 	};
 
 	if (options.placeholder === GatsbyImageDataPlaceholderKind.Blurred) {

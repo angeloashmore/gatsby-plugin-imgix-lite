@@ -72,3 +72,14 @@ export enum GatsbyImageDataPlaceholderKind {
 	DominantColor = "dominantColor",
 	None = "none",
 }
+
+/**
+ * Gatsby Image layout kinds.
+ *
+ * @see Gatsby Image plugin documentation: {@link https://www.gatsbyjs.com/docs/reference/built-in-components/gatsby-plugin-image/#layout}
+ */
+export enum GatsbyImageDataLayoutKind {
+	Constrained = "constrained",
+	Fixed = "fixed",
+	FullWidth = "fullWidth",
+}

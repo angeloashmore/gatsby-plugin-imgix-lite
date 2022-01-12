@@ -26,49 +26,51 @@ export const buildGatsbyImageDataFieldConfig = <TSource, TContext>(
 	TContext,
 	GatsbyImageDataArgs
 > => {
-	const fieldConfig = getGatsbyImageFieldConfig<TSource, TContext>(
-		async (source, args: GatsbyImageDataArgs) => {
-			const imageSource = await config.generateImageSource(source);
+	const fieldConfig = getGatsbyImageFieldConfig<
+		TSource,
+		TContext,
+		GatsbyImageDataArgs
+	>(async (source, args) => {
+		const imageSource = await config.generateImageSource(source);
 
-			if (imageSource !== null) {
-				return resolveGatsbyImageData(
-					{
-						url: imageSource.url,
-						width: imageSource.width,
-						height: imageSource.height,
+		if (imageSource !== null) {
+			return resolveGatsbyImageData(
+				{
+					url: imageSource.url,
+					width: imageSource.width,
+					height: imageSource.height,
+				},
+				{
+					...args,
+					imgixParams: {
+						...config.defaultImgixParams,
+						...args.imgixParams,
 					},
-					{
-						...args,
-						imgixParams: {
-							...config.defaultImgixParams,
-							...args.imgixParams,
-						},
-						placeholderImgixParams: {
-							...config.defaultPlaceholderImgixParams,
-							...args.placeholderImgixParams,
-						},
+					placeholderImgixParams: {
+						...config.defaultPlaceholderImgixParams,
+						...args.placeholderImgixParams,
 					},
-					{
-						cache: config.cache,
-						pluginName: config.pluginName,
-						imgixClientConfig: config.imgixClientConfig,
-					},
-				);
-			} else {
-				return null;
-			}
-		},
-	) as ObjectTypeComposerFieldConfigAsObjectDefinition<
+				},
+				{
+					cache: config.cache,
+					pluginName: config.pluginName,
+					imgixClientConfig: config.imgixClientConfig,
+				},
+			);
+		} else {
+			return null;
+		}
+	}) as ObjectTypeComposerFieldConfigAsObjectDefinition<
 		TSource,
 		TContext,
 		GatsbyImageDataArgs
 	>;
 
-	// We need to set this separately since the above type case raises the field
+	// We need to set this separately since the above type cast raises the field
 	// config to a graphql-compose definition. This allows us to reference types
 	// by name, which is needed for the arguments.
 	fieldConfig.args = {
-		...fieldConfig.args,
+		...(fieldConfig.args as NonNullable<typeof fieldConfig.args>),
 		placeholder: {
 			type: config.namespace + GraphQLTypeName.GatsbyImageDataPlaceholderEnum,
 			defaultValue: GatsbyImageDataPlaceholderKind.DominantColor,
